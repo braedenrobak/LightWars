@@ -44,8 +44,15 @@ public class PlayerEntityTests {
     [Test]
     public void TrueOnEnoughEnergy()
     {
+        Assert.True(playerEntity.HasEnoughEnergy(2));
+    }
+
+    [Test]
+    public void TrueOnExactEnergy()
+    {
         Assert.True(playerEntity.HasEnoughEnergy(3));
     }
+
 
     [Test]
     public void ProperAmountOfEnergyTakenAway()
