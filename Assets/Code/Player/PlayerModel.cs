@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerEntity : IKillable<int>
+public class PlayerModel : IKillable<int>
 {
     private int _health;
     private int _energy;
 
-    public PlayerEntity(int health, int energy)
+    public PlayerModel(int health, int energy)
     {
         _health = health;
         _energy = energy;
@@ -42,6 +42,12 @@ public class PlayerEntity : IKillable<int>
     {
         // Play destroy animation
     }
+
+    public void GainEnergy(int energyAmount)
+    {
+        _energy += energyAmount;
+    }
+
 
     public bool HasEnoughEnergy(int energyCost)
     {

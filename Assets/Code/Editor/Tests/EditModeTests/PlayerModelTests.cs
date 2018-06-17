@@ -3,14 +3,14 @@ using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
 
-public class PlayerEntityTests {
+public class PlayerModelTests {
 
-    private PlayerEntity playerEntity;
+    private PlayerModel playerEntity;
 
     [SetUp]
     public void Setup()
     {
-        playerEntity = new PlayerEntity(3, 3);
+        playerEntity = new PlayerModel(3, 3);
     }
 
     [TearDown]
@@ -28,10 +28,17 @@ public class PlayerEntityTests {
     }
 
     [Test]
-    public void TrueOnDeathWhenHealthIsEqualOrBelowZero()
+    public void TrueOnDeathWhenHealthIsEqualToZero()
     {
         playerEntity.Damage(3);
 
+        Assert.True(playerEntity.IsDead());
+    }
+
+    [Test]
+    public void TrueOnDeathWhenHealthIsLessThanZero()
+    {
+        playerEntity.Damage(4);
         Assert.True(playerEntity.IsDead());
     }
 
@@ -60,6 +67,14 @@ public class PlayerEntityTests {
         playerEntity.SpendEnergy(2);
 
         Assert.AreEqual(1, playerEntity.GetEnergy());
+    }
+
+    [Test]
+    public void ProperAmountOfEnergyGiven()
+    {
+        playerEntity.GainEnergy(1);
+
+        Assert.AreEqual(4, playerEntity.GetEnergy());
     }
 
 }
