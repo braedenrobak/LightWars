@@ -10,18 +10,18 @@ public class MockGameViewOutput : MonoBehaviour, IGameViewOutputController
     public PlayerData playerTwo = new PlayerData(1,0,0);
 
     public bool wasHit = false;
-    public Players hitPlayerId;
+    public PlayerIds hitPlayerId;
 
     public bool gameOverCalled = false;
-    public Players playerIdOfWinner;
+    public PlayerIds playerIdOfWinner;
 
-    public void DisplayPlayerHit(Players playerId, int damage)
+    public void DisplayPlayerHit(PlayerIds playerId, int damage)
     {
         wasHit = true;
         hitPlayerId = playerId;
     }
 
-    public void GameOverWithWinner(Players playerId)
+    public void GameOverWithWinner(PlayerIds playerId)
     {
         gameOverCalled = true;
         playerIdOfWinner = playerId;
@@ -70,7 +70,7 @@ public class GameControllerTests
     public IEnumerator InitializedPlayerDataPassedToViewOnStartUp()
     {
         PlayerData playerDataToTest = _mockGameViewOutput.playerOne;
-        Assert.AreEqual(Players.PlayerOne, playerDataToTest.id);
+        Assert.AreEqual(PlayerIds.PlayerOne, playerDataToTest.id);
         Assert.AreEqual(3, playerDataToTest.health);
         Assert.AreEqual(3, playerDataToTest.energy);
 
@@ -83,7 +83,7 @@ public class GameControllerTests
         _gameController.PlayerHit(_mockGameViewOutput.playerOne, new EnergyData { energyType = 0, damage = 1} );
 
         Assert.True(_mockGameViewOutput.wasHit);
-        Assert.AreEqual(Players.PlayerOne, _mockGameViewOutput.hitPlayerId);
+        Assert.AreEqual(PlayerIds.PlayerOne, _mockGameViewOutput.hitPlayerId);
         Assert.AreEqual(2, _mockGameViewOutput.playerOne.health);
 
         yield return null;
@@ -108,7 +108,7 @@ public class GameControllerTests
         yield return new WaitForSeconds(2.0f);
 
         Assert.True(_mockGameViewOutput.gameOverCalled);
-        Assert.AreEqual(Players.PlayerTwo, _mockGameViewOutput.playerIdOfWinner);
+        Assert.AreEqual(PlayerIds.PlayerTwo, _mockGameViewOutput.playerIdOfWinner);
 
         yield return null;
     }

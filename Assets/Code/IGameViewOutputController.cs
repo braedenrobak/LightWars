@@ -4,9 +4,9 @@ using UnityEngine;
 
 public interface IGameViewOutputController {
 
-    void DisplayPlayerHit(Players playerId, int damage);
+    void DisplayPlayerHit(PlayerIds playerId, int damage);
 
     void UpdatePlayerView(PlayerData playerData);
 
-    void GameOverWithWinner(Players playerId);
+    void GameOverWithWinner(PlayerIds playerId);
 }

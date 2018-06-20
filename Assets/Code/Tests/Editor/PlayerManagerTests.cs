@@ -24,28 +24,28 @@ public class PlayerManagerTests {
     {
         _gameManager.AddEnergyToPlayers();
 
-        Assert.AreEqual(4, _gameManager.GetPlayersCurrentEnergy(Players.PlayerOne));
-        Assert.AreEqual(4, _gameManager.GetPlayersCurrentEnergy(Players.PlayerTwo));
+        Assert.AreEqual(4, _gameManager.GetPlayersCurrentEnergy(PlayerIds.PlayerOne));
+        Assert.AreEqual(4, _gameManager.GetPlayersCurrentEnergy(PlayerIds.PlayerTwo));
     }
 
     [Test]
     public void FalseOnPlayerNotHavingEnoughEnergy()
     {
-        Assert.False(_gameManager.PlayerCanCastEnergyOfCost(Players.PlayerOne, 5));
+        Assert.False(_gameManager.PlayerCanCastEnergyOfCost(PlayerIds.PlayerOne, 5));
     }
 
     [Test]
     public void TrueOnPlayerHasEnoughEnergy()
     {
-        Assert.True(_gameManager.PlayerCanCastEnergyOfCost(Players.PlayerOne, 3));
+        Assert.True(_gameManager.PlayerCanCastEnergyOfCost(PlayerIds.PlayerOne, 3));
     }
 
     [Test]
     public void DamagesPlayer()
     {
-        _gameManager.DamagePlayer(Players.PlayerTwo, 2);
+        _gameManager.DamagePlayer(PlayerIds.PlayerTwo, 2);
 
-        Assert.AreEqual(1, _gameManager.GetPlayersCurrentHealth(Players.PlayerTwo));
+        Assert.AreEqual(1, _gameManager.GetPlayersCurrentHealth(PlayerIds.PlayerTwo));
     }
 
 
