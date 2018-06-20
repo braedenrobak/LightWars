@@ -9,11 +9,11 @@ public enum Players
 };
 
 
-public class GameManager {
+public class PlayerManager {
 
     private PlayerModel[] _players;
 
-    public GameManager()
+    public PlayerManager()
     {
         _players = new PlayerModel[2];
 

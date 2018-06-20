@@ -3,14 +3,14 @@ using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
 
-public class GameManagerTests {
+public class PlayerManagerTests {
 
-    private GameManager _gameManager;
+    private PlayerManager _gameManager;
 
     [SetUp]
     public void Setup()
     {
-        _gameManager = new GameManager();
+        _gameManager = new PlayerManager();
     }
 
     [TearDown]
