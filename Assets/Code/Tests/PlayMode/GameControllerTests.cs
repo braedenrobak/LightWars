@@ -7,16 +7,24 @@ using System.Collections;
 public class MockGameViewOutput : MonoBehaviour, IGameViewOutputController
 {
     public PlayerData playerOne = new PlayerData(0,0,0);
-    public PlayerData playerTwo = new PlayerData(0,0,0);
+    public PlayerData playerTwo = new PlayerData(1,0,0);
 
-    public void DisplayPlayerHit(int playerId, int damage)
+    public bool wasHit = false;
+    public Players hitPlayerId;
+
+    public bool gameOverCalled = false;
+    public Players playerIdOfWinner;
+
+    public void DisplayPlayerHit(Players playerId, int damage)
     {
-        // Stubbed for testing purposes
+        wasHit = true;
+        hitPlayerId = playerId;
     }
 
-    public void GameOverWithWinner(int playerId)
+    public void GameOverWithWinner(Players playerId)
     {
-        // Stubbed for testing purposes
+        gameOverCalled = true;
+        playerIdOfWinner = playerId;
     }
 
     public void UpdatePlayerView(PlayerData playerData)
@@ -59,9 +67,26 @@ public class GameControllerTests
     }
 
     [UnityTest]
-    public void PlayerTakesDamageGivenPlayerObjectAndEnergyObject()
+    public IEnumerator InitializedPlayerDataPassedToViewOnStartUp()
     {
+        PlayerData playerDataToTest = _mockGameViewOutput.playerOne;
+        Assert.AreEqual(Players.PlayerOne, playerDataToTest.id);
+        Assert.AreEqual(3, playerDataToTest.health);
+        Assert.AreEqual(3, playerDataToTest.energy);
 
+        yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator PlayerTakesDamageGivenPlayerObjectAndEnergyObject()
+    {
+        _gameController.PlayerHit(_mockGameViewOutput.playerOne, new EnergyData { energyType = 0, damage = 1} );
+
+        Assert.True(_mockGameViewOutput.wasHit);
+        Assert.AreEqual(Players.PlayerOne, _mockGameViewOutput.hitPlayerId);
+        Assert.AreEqual(2, _mockGameViewOutput.playerOne.health);
+
+        yield return null;
     }
 
     [UnityTest]
@@ -76,8 +101,15 @@ public class GameControllerTests
     }
 
     [UnityTest]
-    public void GameOverOnPlayerDied()
+    public IEnumerator GameOverOnPlayerDied()
     {
+        _gameController.PlayerHit(_mockGameViewOutput.playerOne, new EnergyData { energyType = 0, damage = 4 });
 
+        yield return new WaitForSeconds(2.0f);
+
+        Assert.True(_mockGameViewOutput.gameOverCalled);
+        Assert.AreEqual(Players.PlayerTwo, _mockGameViewOutput.playerIdOfWinner);
+
+        yield return null;
     }
 }

@@ -4,17 +4,26 @@ using UnityEngine;
 
 public class PlayerData
 {
-    public int id;
+    public Players id;
     public int health;
     public int energy;
 
+    public PlayerData()
+    {}
+
     public PlayerData(int id, int health, int energy)
     {
-        this.id = id;
+        this.id = (Players)id;
         this.health = health;
         this.energy = energy;
     }
 
+}
+
+public class EnergyData
+{
+    public int energyType;
+    public int damage;
 }
 
 public class GameController : MonoBehaviour {
@@ -22,10 +31,6 @@ public class GameController : MonoBehaviour {
     public float CreationTime = 3.0f;
 
     private PlayerManager _playerManager;
-
-    private PlayerData _playerOne;
-
-    private PlayerData _playerTwo;
 
     private float _gameTimer;
 
@@ -43,9 +48,8 @@ public class GameController : MonoBehaviour {
         _gameOver = false;
         _gameViewOutputController = GetComponent<IGameViewOutputController>();
 
-        /** TODO:  FIX TO INITIALIZE IT TO PLAYERMANAGER NUMBERS **/
-        _playerOne = new PlayerData(0, 3, 3);
-        _playerTwo = new PlayerData(1, 3, 3);
+        _gameViewOutputController.UpdatePlayerView(ConvertToPlayerData(Players.PlayerOne));
+        _gameViewOutputController.UpdatePlayerView(ConvertToPlayerData(Players.PlayerTwo));
 	}
 	
 	// Update is called once per frame
@@ -54,37 +58,42 @@ public class GameController : MonoBehaviour {
 
         if (_gameTimer >= CreationTime)
         {
-            Debug.Log("Entered the energy loop");
             _playerManager.AddEnergyToPlayers();
-            // Update view with new player energies
-            _playerOne.energy = _playerManager.GetPlayersCurrentEnergy(Players.PlayerOne);
-            _playerTwo.energy = _playerManager.GetPlayersCurrentEnergy(Players.PlayerTwo);
 
-            _gameViewOutputController.UpdatePlayerView(_playerOne);
-            _gameViewOutputController.UpdatePlayerView(_playerTwo);
+            _gameViewOutputController.UpdatePlayerView(ConvertToPlayerData(Players.PlayerOne));
+            _gameViewOutputController.UpdatePlayerView(ConvertToPlayerData(Players.PlayerTwo));
             _gameTimer = 0.0f;
         }
 
-        if(_playerManager.GetPlayersCurrentHealth(Players.PlayerOne) == 0)
+        if(_playerManager.GetPlayersCurrentHealth(Players.PlayerOne) <= 0)
         {
-            _gameViewOutputController.GameOverWithWinner((int)Players.PlayerTwo);
+            _gameViewOutputController.GameOverWithWinner(Players.PlayerTwo);
         }
-        else if(_playerManager.GetPlayersCurrentHealth(Players.PlayerTwo) == 0)
+        else if(_playerManager.GetPlayersCurrentHealth(Players.PlayerTwo) <= 0)
         {
             _gameViewOutputController.GameOverWithWinner((int)Players.PlayerOne);
         }
 	}
 
-    public void PlayerHit(GameObject player, GameObject energy)
+    public void PlayerHit(PlayerData player, EnergyData energy)
     {
-        Players currentPlayer = (Players)player.GetComponent<PlayerData>().id;
-        //_playerManager.DamagePlayer(currentPlayer, energy.GetComponent<Energy>().damage);
+        _playerManager.DamagePlayer(player.id, energy.damage);
 
-        int currentEnergy = _playerManager.GetPlayersCurrentEnergy(currentPlayer);
-        int currentHealth = _playerManager.GetPlayersCurrentHealth(currentPlayer);
+        _gameViewOutputController.DisplayPlayerHit(player.id, energy.damage);
 
-        int currentPlayerId = player.GetComponent<PlayerData>().id;
-       // _gameViewOutputController.DisplayPlayerHit(currentPlayerId, energy.GetComponent<Energy>().damage);
-        _gameViewOutputController.UpdatePlayerView(new PlayerData(currentPlayerId, currentHealth, currentEnergy));
+        _gameViewOutputController.UpdatePlayerView(ConvertToPlayerData((Players)player.id));
+    }
+
+    private PlayerData ConvertToPlayerData(Players player)
+    {
+        PlayerData convertedPlayerData = new PlayerData
+        {
+            id = player,
+
+            health = _playerManager.GetPlayersCurrentHealth(player),
+            energy = _playerManager.GetPlayersCurrentEnergy(player)
+        };
+
+        return convertedPlayerData;
     }
 }
