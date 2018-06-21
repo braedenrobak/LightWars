@@ -34,18 +34,12 @@ public class GameController : MonoBehaviour {
 
     private float _gameTimer;
 
-    private float _energyCreationTime;
-
     private IGameViewOutputController _gameViewOutputController;
-
-    private bool _gameOver;
 
 	// Use this for initialization
 	void Start () {
         _playerManager = new PlayerManager();
         _gameTimer = 0.0f;
-        _energyCreationTime = CreationTime;
-        _gameOver = false;
         _gameViewOutputController = GetComponent<IGameViewOutputController>();
 
         _gameViewOutputController.UpdatePlayerView(ConvertToPlayerData(PlayerIds.PlayerOne));
