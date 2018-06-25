@@ -5,12 +5,12 @@ using System.Collections;
 
 public class PlayerManagerTests {
 
-    private PlayerManager _gameManager;
+    private PlayerController _gameManager;
 
     [SetUp]
     public void Setup()
     {
-        _gameManager = new PlayerManager();
+        _gameManager = new PlayerController();
     }
 
     [TearDown]

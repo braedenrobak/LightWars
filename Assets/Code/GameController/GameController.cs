@@ -30,7 +30,7 @@ public class GameController : MonoBehaviour {
 
     public float CreationTime = 3.0f;
 
-    private PlayerManager _playerManager;
+    private PlayerController _playerManager;
 
     private float _gameTimer;
 
@@ -38,7 +38,7 @@ public class GameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        _playerManager = new PlayerManager();
+        _playerManager = new PlayerController();
         _gameTimer = 0.0f;
         _gameViewOutputController = GetComponent<IGameViewOutputController>();
 

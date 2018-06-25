@@ -9,11 +9,11 @@ public enum PlayerIds
 };
 
 
-public class PlayerManager {
+public class PlayerController {
 
     private PlayerModel[] _players;
 
-    public PlayerManager()
+    public PlayerController()
     {
         _players = new PlayerModel[2];
 
