@@ -34,16 +34,16 @@ public class GameManager : MonoBehaviour {
 
     private float _gameTimer;
 
-    private IGameViewOutputController _gameViewOutputController;
+    private IPlayerViewOutputController _playerViewOutputController;
 
 	// Use this for initialization
 	void Start () {
         _playerController = new PlayerController();
         _gameTimer = 0.0f;
-        _gameViewOutputController = GetComponent<IGameViewOutputController>();
+        _playerViewOutputController = GetComponent<IPlayerViewOutputController>();
 
-        _gameViewOutputController.UpdatePlayerView(ConvertToPlayerData(PlayerIds.PlayerOne));
-        _gameViewOutputController.UpdatePlayerView(ConvertToPlayerData(PlayerIds.PlayerTwo));
+        _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(PlayerIds.PlayerOne));
+        _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(PlayerIds.PlayerTwo));
 	}
 	
 	// Update is called once per frame
@@ -54,18 +54,18 @@ public class GameManager : MonoBehaviour {
         {
             _playerController.AddEnergyToPlayers();
 
-            _gameViewOutputController.UpdatePlayerView(ConvertToPlayerData(PlayerIds.PlayerOne));
-            _gameViewOutputController.UpdatePlayerView(ConvertToPlayerData(PlayerIds.PlayerTwo));
+            _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(PlayerIds.PlayerOne));
+            _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(PlayerIds.PlayerTwo));
             _gameTimer = 0.0f;
         }
 
         if(_playerController.GetPlayersCurrentHealth(PlayerIds.PlayerOne) <= 0)
         {
-            _gameViewOutputController.GameOverWithWinner(PlayerIds.PlayerTwo);
+            _playerViewOutputController.GameOverWithWinner(PlayerIds.PlayerTwo);
         }
         else if(_playerController.GetPlayersCurrentHealth(PlayerIds.PlayerTwo) <= 0)
         {
-            _gameViewOutputController.GameOverWithWinner((int)PlayerIds.PlayerOne);
+            _playerViewOutputController.GameOverWithWinner((int)PlayerIds.PlayerOne);
         }
 	}
 
@@ -73,9 +73,9 @@ public class GameManager : MonoBehaviour {
     {
         _playerController.DamagePlayer(player.id, energy.damage);
 
-        _gameViewOutputController.DisplayPlayerHit(player.id, energy.damage);
+        _playerViewOutputController.DisplayPlayerHit(player.id, energy.damage);
 
-        _gameViewOutputController.UpdatePlayerView(ConvertToPlayerData((PlayerIds)player.id));
+        _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData((PlayerIds)player.id));
     }
 
     private PlayerData ConvertToPlayerData(PlayerIds player)

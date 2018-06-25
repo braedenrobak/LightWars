@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IGameViewOutputController {
+public interface IPlayerViewOutputController {
 
     void DisplayPlayerHit(PlayerIds playerId, int damage);
 

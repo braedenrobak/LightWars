@@ -4,7 +4,7 @@ using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
 
-public class MockGameViewOutput : MonoBehaviour, IGameViewOutputController
+public class MockGameViewOutput : MonoBehaviour, IPlayerViewOutputController
 {
     public PlayerData playerOne = new PlayerData(0,0,0);
     public PlayerData playerTwo = new PlayerData(1,0,0);

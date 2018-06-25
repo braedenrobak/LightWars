@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerViewOutputController : MonoBehaviour, IGameViewOutputController
+public class PlayerViewOutputController : MonoBehaviour, IPlayerViewOutputController
 {
     private PlayerView[] _playerViews;
 
