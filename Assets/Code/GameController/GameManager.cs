@@ -26,11 +26,11 @@ public class EnergyData
     public int damage;
 }
 
-public class GameController : MonoBehaviour {
+public class GameManager : MonoBehaviour {
 
     public float CreationTime = 3.0f;
 
-    private PlayerController _playerManager;
+    private PlayerController _playerController;
 
     private float _gameTimer;
 
@@ -38,7 +38,7 @@ public class GameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        _playerManager = new PlayerController();
+        _playerController = new PlayerController();
         _gameTimer = 0.0f;
         _gameViewOutputController = GetComponent<IGameViewOutputController>();
 
@@ -52,18 +52,18 @@ public class GameController : MonoBehaviour {
 
         if (_gameTimer >= CreationTime)
         {
-            _playerManager.AddEnergyToPlayers();
+            _playerController.AddEnergyToPlayers();
 
             _gameViewOutputController.UpdatePlayerView(ConvertToPlayerData(PlayerIds.PlayerOne));
             _gameViewOutputController.UpdatePlayerView(ConvertToPlayerData(PlayerIds.PlayerTwo));
             _gameTimer = 0.0f;
         }
 
-        if(_playerManager.GetPlayersCurrentHealth(PlayerIds.PlayerOne) <= 0)
+        if(_playerController.GetPlayersCurrentHealth(PlayerIds.PlayerOne) <= 0)
         {
             _gameViewOutputController.GameOverWithWinner(PlayerIds.PlayerTwo);
         }
-        else if(_playerManager.GetPlayersCurrentHealth(PlayerIds.PlayerTwo) <= 0)
+        else if(_playerController.GetPlayersCurrentHealth(PlayerIds.PlayerTwo) <= 0)
         {
             _gameViewOutputController.GameOverWithWinner((int)PlayerIds.PlayerOne);
         }
@@ -71,7 +71,7 @@ public class GameController : MonoBehaviour {
 
     public void PlayerHit(PlayerData player, EnergyData energy)
     {
-        _playerManager.DamagePlayer(player.id, energy.damage);
+        _playerController.DamagePlayer(player.id, energy.damage);
 
         _gameViewOutputController.DisplayPlayerHit(player.id, energy.damage);
 
@@ -84,8 +84,8 @@ public class GameController : MonoBehaviour {
         {
             id = player,
 
-            health = _playerManager.GetPlayersCurrentHealth(player),
-            energy = _playerManager.GetPlayersCurrentEnergy(player)
+            health = _playerController.GetPlayersCurrentHealth(player),
+            energy = _playerController.GetPlayersCurrentEnergy(player)
         };
 
         return convertedPlayerData;

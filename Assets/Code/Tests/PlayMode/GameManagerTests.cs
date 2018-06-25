@@ -41,12 +41,12 @@ public class MockGameViewOutput : MonoBehaviour, IGameViewOutputController
 }
 
 
-public class GameControllerTests
+public class GameManagerTests
 {
 
     private GameObject _gameControllerObject;
 
-    private GameController _gameController;
+    private GameManager _gameController;
 
     private MockGameViewOutput _mockGameViewOutput;
 
@@ -56,7 +56,7 @@ public class GameControllerTests
     {
         _gameControllerObject = new GameObject("Game Controller");
         _mockGameViewOutput = _gameControllerObject.AddComponent<MockGameViewOutput>();
-        _gameController = _gameControllerObject.AddComponent<GameController>();
+        _gameController = _gameControllerObject.AddComponent<GameManager>();
     }
 
     [TearDown]

@@ -3,7 +3,7 @@ using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
 
-public class PlayerManagerTests {
+public class PlayerControllerTests {
 
     private PlayerController _gameManager;
 

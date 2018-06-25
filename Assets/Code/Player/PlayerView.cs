@@ -8,14 +8,14 @@ public class PlayerView : MonoBehaviour {
     public Text _healthText;
     public Text _energyText;
 
-    private GameController _gameController;
+    private GameManager _gameManager;
 
     private PlayerData _playerData;
 
 
-    public PlayerView(GameController gameController, PlayerData playerData)
+    public PlayerView(GameManager gameController, PlayerData playerData)
     {
-        _gameController = gameController;
+        _gameManager = gameController;
         _playerData = playerData;
     }
 
@@ -38,7 +38,7 @@ public class PlayerView : MonoBehaviour {
     {
         EnergyData energyData = new EnergyData();//collision.gameObject.GetComponent<EnergyView>().GetEnergyData();
 
-        _gameController.PlayerHit(_playerData, energyData);
+        _gameManager.PlayerHit(_playerData, energyData);
     }
 
     private void DisplayPlayer()
