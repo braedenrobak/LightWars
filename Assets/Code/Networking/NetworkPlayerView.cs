@@ -19,7 +19,9 @@ public class NetworkPlayerView : NetworkBehaviour {
 
     private GameManager _gameManager;
 
-	// All about updating visual
+    private bool playerPositionSet = false;
+
+    // All about updating visual
     // This is where you connect the variables to be chagned across clients when changed
     // If server, it updates and sends to all clients
 
@@ -31,6 +33,17 @@ public class NetworkPlayerView : NetworkBehaviour {
     public void SetPlayerId(int playerId)
     {
         _playerId = playerId;
+    }
+
+    public override void OnStartClient()
+    {
+        if (!isLocalPlayer)
+            transform.position = new Vector3(0.0f, 3.0f, 0.0f);
+    }
+
+    public override void OnStartLocalPlayer()
+    {
+        transform.position = new Vector3(0.0f, -3.0f, 0.0f);
     }
 
     public void UpdateHealth(int newHealth)
