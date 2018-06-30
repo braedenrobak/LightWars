@@ -5,10 +5,24 @@ using UnityEngine.Networking;
 
 public class NetworkPlayerOutputController : NetworkBehaviour, IPlayerViewOutputController
 {
-    // ** TODO : DECIDE IF IT NEEDS TO BE DECIED IF ITS SERVER OR NOT BEFORE UPDATING
+    private List<NetworkPlayerView> _networkPlayerViews;
+
+    public void Start()
+    {
+        _networkPlayerViews = new List<NetworkPlayerView>();
+    }
+
+    public void AddNetworkPlayerView(NetworkPlayerView playerView)
+    {
+        if (!isServer)
+            return;
+        
+        _networkPlayerViews.Add(playerView);
+    }
+
     public void DisplayPlayerHit(PlayerIds playerId, int damage)
     {
-       // Play damage animation at the playerId's position
+        // Run damage anim
     }
 
     public void GameOverWithWinner(PlayerIds playerId)
@@ -18,6 +32,9 @@ public class NetworkPlayerOutputController : NetworkBehaviour, IPlayerViewOutput
 
     public void UpdatePlayerView(PlayerData playerData)
     {
-        // Send update to the PlayerView
+        if (!isServer)
+            return;
+        _networkPlayerViews[(int)playerData.id].UpdateEnergy(playerData.energy);
+        _networkPlayerViews[(int)playerData.id].UpdateHealth(playerData.health);
     }
 }

@@ -36,10 +36,23 @@ public class GameManager : MonoBehaviour {
 
     private IPlayerViewOutputController _playerViewOutputController;
 
+    // Use this for initialization
+    void Awake()
+    {
+        _playerController = new PlayerController();
+        _gameTimer = 0.0f;
+        CreationTime = 3.0f;
+        _playerViewOutputController = gameObject.GetComponent<IPlayerViewOutputController>();
+
+        _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(PlayerIds.PlayerOne));
+        _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(PlayerIds.PlayerTwo));
+    }
+
 	// Use this for initialization
 	void Start () {
         _playerController = new PlayerController();
         _gameTimer = 0.0f;
+        CreationTime = 3.0f;
         _playerViewOutputController = GetComponent<IPlayerViewOutputController>();
 
         _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(PlayerIds.PlayerOne));
