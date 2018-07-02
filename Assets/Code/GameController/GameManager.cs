@@ -47,17 +47,6 @@ public class GameManager : MonoBehaviour {
         _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(PlayerIds.PlayerOne));
         _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(PlayerIds.PlayerTwo));
     }
-
-	// Use this for initialization
-	void Start () {
-        _playerController = new PlayerController();
-        _gameTimer = 0.0f;
-        CreationTime = 3.0f;
-        _playerViewOutputController = GetComponent<IPlayerViewOutputController>();
-
-        _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(PlayerIds.PlayerOne));
-        _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(PlayerIds.PlayerTwo));
-	}
 	
 	// Update is called once per frame
 	void Update () {
