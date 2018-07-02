@@ -7,7 +7,7 @@ public class NetworkPlayerOutputController : NetworkBehaviour, IPlayerViewOutput
 {
     private List<NetworkPlayerView> _networkPlayerViews;
 
-    public void Start()
+    public void Awake()
     {
         _networkPlayerViews = new List<NetworkPlayerView>();
     }
@@ -34,7 +34,17 @@ public class NetworkPlayerOutputController : NetworkBehaviour, IPlayerViewOutput
     {
         if (!isServer)
             return;
-        _networkPlayerViews[(int)playerData.id].UpdateEnergy(playerData.energy);
-        _networkPlayerViews[(int)playerData.id].UpdateHealth(playerData.health);
+        
+        if (GameIsLoaded())
+        {
+            _networkPlayerViews[(int)playerData.id].UpdateEnergy(playerData.energy);
+            _networkPlayerViews[(int)playerData.id].UpdateHealth(playerData.health);
+        }
     }
+
+    private bool GameIsLoaded()
+    {
+        return _networkPlayerViews.Count == 2;
+    }
+
 }
