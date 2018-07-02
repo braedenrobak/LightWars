@@ -14,6 +14,7 @@ public class NetworkMain : MonoBehaviour {
 	void Start () {
         // Create Game Manager
         _gameManager = gameObject.AddComponent<GameManager>();
+        _gameManager.enabled = false;
         // Create NetworkOutput 
         _networkPlayerOutputController = GetComponent<NetworkPlayerOutputController>();
 
