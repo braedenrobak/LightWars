@@ -8,6 +8,7 @@ public class NetworkPlayerView : NetworkBehaviour {
 
     public Text _healthText;
     public Text _energyText;
+    public Text _nameText;
 
     [SyncVar(hook = "OnChangeHealth")]
     private int _health;
@@ -23,7 +24,6 @@ public class NetworkPlayerView : NetworkBehaviour {
 
     // All about updating visual
     // This is where you connect the variables to be chagned across clients when changed
-    // If server, it updates and sends to all clients
 
     public void SetGameManager(GameManager gameManager)
     {
@@ -35,15 +35,21 @@ public class NetworkPlayerView : NetworkBehaviour {
         _playerId = playerId;
     }
 
+    // Set the non-local players view to the top of the screen
     public override void OnStartClient()
     {
         if (!isLocalPlayer)
+        {
             transform.position = new Vector3(0.0f, 3.0f, 0.0f);
+            _nameText.text = "Enemy";
+        }
     }
 
+    // Set the local player view to bottom of the screen
     public override void OnStartLocalPlayer()
     {
         transform.position = new Vector3(0.0f, -3.0f, 0.0f);
+        _nameText.text = "You";
     }
 
     public void UpdateHealth(int newHealth)
@@ -75,6 +81,10 @@ public class NetworkPlayerView : NetworkBehaviour {
         _energyText.text = "Energy : " + currentEnergy;
     }
 
+    /*** TODO : SHOULD BE MADE INTO ITS OWN CLASS THAT HANDLES INPUT FROM PLAYER VIEW PREFAB **/
+
+    //*** CURRENTLY USED TO TEST SYNCING OF CLIENTS IS WORKING **//
+    //** SHOULD BE USED TO INSTANTIATE THE RELEASE OF ENERGIES **//
     public void OnMouseDown()
     {
         if (!isLocalPlayer)
@@ -82,7 +92,8 @@ public class NetworkPlayerView : NetworkBehaviour {
 
         CmdPlayerHit();
     }
-
+    //*** CURRENTLY USED TO TEST SYNCING OF CLIENTS IS WORKING **//
+    //** SHOULD BE USED TO INSTANTIATE THE RELEASE OF ENERGIES **//
     [Command]
     public void CmdPlayerHit()
     {
