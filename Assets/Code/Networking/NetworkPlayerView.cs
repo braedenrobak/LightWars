@@ -20,8 +20,6 @@ public class NetworkPlayerView : NetworkBehaviour {
 
     private GameManager _gameManager;
 
-    private bool playerPositionSet = false;
-
     // All about updating visual
     // This is where you connect the variables to be chagned across clients when changed
 
