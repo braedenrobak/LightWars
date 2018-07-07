@@ -6,7 +6,7 @@ public class PlayerViewOutputController : MonoBehaviour, IPlayerViewOutputContro
 {
     private PlayerView[] _playerViews;
 
-    public PlayerViewOutputController(PlayerView[] playerViews)
+    public void SetPlayerViews(PlayerView[] playerViews)
     {
         _playerViews = playerViews;
     }
