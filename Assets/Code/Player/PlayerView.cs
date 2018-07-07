@@ -8,10 +8,21 @@ public class PlayerView : MonoBehaviour {
     public Text _healthText;
     public Text _energyText;
 
+    public GameObject _energyPrefab;
+
     private GameManager _gameManager;
 
     private PlayerData _playerData;
 
+    private BaseEnergySpawner _energySpawner;
+
+    public void Awake()
+    {
+        _energySpawner = new SinglePlayerEnergySpawner();
+        _energySpawner.SetEnergyLoader(new FakeEnergyLoader());
+        _energySpawner.LoadEnergies();
+        (_energySpawner as SinglePlayerEnergySpawner)._energyPrefab = _energyPrefab;
+    }
 
     public PlayerView(GameManager gameController, PlayerData playerData)
     {
@@ -46,5 +57,10 @@ public class PlayerView : MonoBehaviour {
         // Use player data to update the different UI elements for health and energy
         _healthText.text = "Health : " + _playerData.health;
         _energyText.text = "Energy : " + _playerData.energy;
+    }
+
+    private void OnMouseDown()
+    {
+        _energySpawner.SpawnEnergy(0, Camera.main.ScreenToWorldPoint(Input.mousePosition), 0);
     }
 }
