@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class SinglePlayerEnergySpawner : BaseEnergySpawner
 {
-    public GameObject _energyPrefab;
+    public GameObject energyPrefab;
 
     public override void SpawnEnergy(int energyIndex, Vector3 position, int playerId)
     {
         EnergyType energyType = _energyTypes[energyIndex];
 
-        GameObject energy = GameObject.Instantiate(_energyPrefab, position, Quaternion.identity);
+        GameObject energy = GameObject.Instantiate(energyPrefab, position, Quaternion.identity);
 
         EnergyView energyView = energy.GetComponent<EnergyView>();
 

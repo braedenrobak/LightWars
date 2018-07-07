@@ -28,4 +28,9 @@ public class EnergyView : MonoBehaviour {
     {
         _speed = speed;
     }
+
+    public int GetOwningPlayer()
+    {
+        return _ownerId;
+    }
 }
