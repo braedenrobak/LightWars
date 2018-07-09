@@ -59,13 +59,20 @@ public class NetworkPlayerInput : NetworkBehaviour {
     {
         if (!isLocalPlayer)
             return;
-
-        CmdPlayerShoot();
+        
+        CmdPlayerShoot(1);
     }
 
     [Command]
-    public void CmdPlayerShoot()
+    public void CmdPlayerShoot(int energyCost)
     {
-        _energySpawner.SpawnEnergy(0, transform.position, _playerId);
+        if (_gameManager.PlayerCastEnergy(_playerId, energyCost))
+        {
+            _energySpawner.SpawnEnergy(0, transform.position, _playerId);
+        }
+        else
+        {
+            Debug.Log("Player does not have enough energy!");
+        }
     }
 }

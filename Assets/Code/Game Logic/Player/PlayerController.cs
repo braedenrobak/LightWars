@@ -43,6 +43,11 @@ public class PlayerController {
     {
         return _players[(int)id].HasEnoughEnergy(energyCost);
     }
+
+    public void PlayerCastsEnergy(int id, int energyCost)
+    {
+        _players[id].SpendEnergy(energyCost); 
+    }
 	
     public void DamagePlayer(PlayerIds id, int damage)
     {

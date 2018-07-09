@@ -80,6 +80,18 @@ public class GameManager : MonoBehaviour {
         _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData((PlayerIds)player.id));
     }
 
+    public bool PlayerCastEnergy(int playerId, int energyCost)
+    {
+        if(_playerController.PlayerCanCastEnergyOfCost((PlayerIds)playerId, energyCost))
+        {
+            _playerController.PlayerCastsEnergy(playerId, energyCost);
+            _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData((PlayerIds)playerId));
+            return true;
+        }
+
+        return false;
+    }
+
     private PlayerData ConvertToPlayerData(PlayerIds player)
     {
         PlayerData convertedPlayerData = new PlayerData
