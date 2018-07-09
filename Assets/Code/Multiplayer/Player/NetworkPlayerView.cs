@@ -41,6 +41,11 @@ public class NetworkPlayerView : NetworkBehaviour {
         _playerId = playerId;
     }
 
+    public int GetId()
+    {
+        return _playerId;
+    }
+
     // Set the non-local players view to the top of the screen
     public override void OnStartClient()
     {
@@ -94,10 +99,20 @@ public class NetworkPlayerView : NetworkBehaviour {
         _playerId = playerId;
     }
 
-    /*** TODO : SHOULD BE MADE INTO ITS OWN CLASS THAT HANDLES INPUT FROM PLAYER VIEW PREFAB **/
+    public void PlayerHit(int energyType)
+    {
+        if (!isServer)
+            return;
 
-    //*** CURRENTLY USED TO TEST SYNCING OF CLIENTS IS WORKING **//
-    //** SHOULD BE USED TO INSTANTIATE THE RELEASE OF ENERGIES **//
+        EnergyData energyData = new EnergyData();
+
+        energyData.damage = 1;
+
+        energyData.energyType = energyType;
+
+        _gameManager.PlayerHit(new PlayerData(_playerId, _health, _energy), energyData);
+    }
+
     public void OnMouseDown()
     {
         if (!isLocalPlayer)
@@ -105,8 +120,7 @@ public class NetworkPlayerView : NetworkBehaviour {
 
         CmdPlayerShoot();
     }
-    //*** CURRENTLY USED TO TEST SYNCING OF CLIENTS IS WORKING **//
-    //** SHOULD BE USED TO INSTANTIATE THE RELEASE OF ENERGIES **//
+
     [Command]
     public void CmdPlayerShoot()
     {
