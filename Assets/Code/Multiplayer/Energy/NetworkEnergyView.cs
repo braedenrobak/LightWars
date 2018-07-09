@@ -50,10 +50,17 @@ public class NetworkEnergyView : NetworkBehaviour, IEnergySpawnable {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<NetworkPlayerInput>().GetPlayerId() != _ownerId)
+        if (collision.tag == "Players")
         {
-            collision.GetComponent<NetworkPlayerInput>().PlayerHit(0);
+            if (collision.GetComponent<NetworkPlayerInput>().GetPlayerId() != _ownerId)
+            {
+                collision.GetComponent<NetworkPlayerInput>().PlayerHit(0);
 
+                Destroy(gameObject);
+            }
+        }
+        else
+        {
             Destroy(gameObject);
         }
     }
