@@ -39,7 +39,6 @@ public class NetworkPlayerOutputController : NetworkBehaviour, IPlayerViewOutput
         {
             _networkPlayerViews[(int)playerData.id].UpdateEnergy(playerData.energy);
             _networkPlayerViews[(int)playerData.id].UpdateHealth(playerData.health);
-            _networkPlayerViews[(int)playerData.id].SetPlayerId((int)(int)playerData.id);
         }
     }
 

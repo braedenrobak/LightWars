@@ -36,14 +36,16 @@ public class NetworkMain : MonoBehaviour {
         }
     }
 
-    public void AddPlayerView(NetworkPlayerView playerView)
+    public void AddPlayer(GameObject player)
     {
-        // Pass playerView to output w/ currentPlayerIndex
-        _networkPlayerOutputController.AddNetworkPlayerView(playerView);
+        NetworkPlayerInput playerInput = player.GetComponent<NetworkPlayerInput>();
 
-        playerView.SetGameManager(_gameManager);
-        playerView.SetEnergySpawner(_energySpawner);
-        playerView.SetPlayerId(_currentPlayerId);
+        playerInput.SetGameManager(_gameManager);
+        playerInput.SetEnergySpawner(_energySpawner);
+        playerInput.SetPlayerId(_currentPlayerId);
+
+        // Pass playerView to output w/ currentPlayerIndex
+        _networkPlayerOutputController.AddNetworkPlayerView(player.GetComponent<NetworkPlayerView>());
 
         _currentPlayerId++;
     }

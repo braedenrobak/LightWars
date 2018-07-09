@@ -54,9 +54,9 @@ public class NetworkEnergyView : NetworkBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<NetworkPlayerView>().GetId() != _ownerId)
+        if (collision.GetComponent<NetworkPlayerInput>().GetPlayerId() != _ownerId)
         {
-            collision.GetComponent<NetworkPlayerView>().PlayerHit(0);
+            collision.GetComponent<NetworkPlayerInput>().PlayerHit(0);
 
             Destroy(gameObject);
         }

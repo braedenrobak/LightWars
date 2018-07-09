@@ -10,7 +10,7 @@ public class LightWarNetworkManager : NetworkManager {
 
         GameObject player = (GameObject)Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
 
-        GameObject.Find("NetworkMain").GetComponent<NetworkMain>().AddPlayerView(player.GetComponent<NetworkPlayerView>());
+        GameObject.Find("NetworkMain").GetComponent<NetworkMain>().AddPlayer(player);
 
         NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
 
