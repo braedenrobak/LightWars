@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class NetworkMain : MonoBehaviour {
 
+    public GameObject energyPrefab;
+
     private GameManager _gameManager;
+    private BaseEnergySpawner _energySpawner;
 
     private NetworkPlayerOutputController _networkPlayerOutputController;
 
@@ -12,6 +15,10 @@ public class NetworkMain : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        _energySpawner = new NetworkEnergySpawner();
+        (_energySpawner as NetworkEnergySpawner).energyPrefab = energyPrefab;
+
+
         // Create Game Manager
         _gameManager = gameObject.AddComponent<GameManager>();
         _gameManager.enabled = false;
@@ -35,6 +42,7 @@ public class NetworkMain : MonoBehaviour {
         _networkPlayerOutputController.AddNetworkPlayerView(playerView);
 
         playerView.SetGameManager(_gameManager);
+        playerView.SetEnergySpawner(_energySpawner);
         playerView.SetPlayerId(_currentPlayerId);
 
         _currentPlayerId++;

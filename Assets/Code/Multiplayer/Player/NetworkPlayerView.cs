@@ -16,9 +16,11 @@ public class NetworkPlayerView : NetworkBehaviour {
     [SyncVar(hook = "OnChangeEnergy")]
     private int _energy;
 
+    [SyncVar(hook = "OnChangePlayerID")]
     private int _playerId;
 
     private GameManager _gameManager;
+    private BaseEnergySpawner _energySpawner;
 
     // All about updating visual
     // This is where you connect the variables to be chagned across clients when changed
@@ -27,6 +29,12 @@ public class NetworkPlayerView : NetworkBehaviour {
     {
         _gameManager = gameManager;
     }
+
+    public void SetEnergySpawner(BaseEnergySpawner energySpawner)
+    {
+        _energySpawner = energySpawner;
+    }
+
 
     public void SetPlayerId(int playerId)
     {
@@ -38,15 +46,17 @@ public class NetworkPlayerView : NetworkBehaviour {
     {
         if (!isLocalPlayer)
         {
-            transform.position = new Vector3(0.0f, 3.0f, 0.0f);
+            transform.position = Constants.NON_LOCAL_PLAYER_POSITION;
             _nameText.text = "Enemy";
         }
+
+        gameObject.name = "Player " + _playerId;
     }
 
     // Set the local player view to bottom of the screen
     public override void OnStartLocalPlayer()
     {
-        transform.position = new Vector3(0.0f, -3.0f, 0.0f);
+        transform.position = Constants.LOCAL_PLAYER_POSITION;
         _nameText.text = "You";
     }
 
@@ -79,6 +89,11 @@ public class NetworkPlayerView : NetworkBehaviour {
         _energyText.text = "Energy : " + currentEnergy;
     }
 
+    private void OnChangePlayerID(int playerId)
+    {
+        _playerId = playerId;
+    }
+
     /*** TODO : SHOULD BE MADE INTO ITS OWN CLASS THAT HANDLES INPUT FROM PLAYER VIEW PREFAB **/
 
     //*** CURRENTLY USED TO TEST SYNCING OF CLIENTS IS WORKING **//
@@ -88,16 +103,13 @@ public class NetworkPlayerView : NetworkBehaviour {
         if (!isLocalPlayer)
             return;
 
-        CmdPlayerHit();
+        CmdPlayerShoot();
     }
     //*** CURRENTLY USED TO TEST SYNCING OF CLIENTS IS WORKING **//
     //** SHOULD BE USED TO INSTANTIATE THE RELEASE OF ENERGIES **//
     [Command]
-    public void CmdPlayerHit()
+    public void CmdPlayerShoot()
     {
-        EnergyData energyData = new EnergyData();
-        energyData.damage = 1;
-        energyData.energyType = 1;
-        _gameManager.PlayerHit(new PlayerData(_playerId, _health, _energy),  energyData);
+        _energySpawner.SpawnEnergy(0, transform.position, _playerId);
     }
 }
