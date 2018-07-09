@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class NetworkEnergyView : NetworkBehaviour {
+public class NetworkEnergyView : NetworkBehaviour, IEnergySpawnable {
 
     [SyncVar(hook = "UpdateOwnerId")]
     private int _ownerId = -1;
@@ -21,13 +21,9 @@ public class NetworkEnergyView : NetworkBehaviour {
 
     private float directionInverter = 1.0f;
 
-    public void SetOwner(int playerId)
+    public void InitializeEnergy(int ownerId, int speed)
     {
-        _ownerId = playerId;
-    }
-
-    public void SetSpeed(int speed)
-    {
+        _ownerId = ownerId;
         _speed = speed;
     }
 

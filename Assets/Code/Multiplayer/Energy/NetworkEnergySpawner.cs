@@ -10,8 +10,7 @@ public class NetworkEnergySpawner : BaseEnergySpawner
     public override void SpawnEnergy(int energyIndex, Vector3 position, int playerId)
     {
         GameObject energy = GameObject.Instantiate(energyPrefab, position, Quaternion.identity);
-        energy.GetComponent<NetworkEnergyView>().SetOwner(playerId);
-        energy.GetComponent<NetworkEnergyView>().SetSpeed(1);
+        energy.GetComponent<IEnergySpawnable>().InitializeEnergy(playerId, 1);
         NetworkServer.Spawn(energy);
     }
 }
