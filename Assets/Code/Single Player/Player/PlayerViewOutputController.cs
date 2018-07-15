@@ -11,18 +11,18 @@ public class PlayerViewOutputController : MonoBehaviour, IPlayerViewOutputContro
         _playerViews = playerViews;
     }
 
-    public void DisplayPlayerHit(PlayerIds playerId, int damage)
+    public void DisplayPlayerHit(int playerId, int damage)
     {
-        _playerViews[(int)playerId].DisplayHit(damage);
+        _playerViews[playerId].DisplayHit(damage);
     }
 
-    public void GameOverWithWinner(PlayerIds playerId)
+    public void GameOverWithWinner(int playerId)
     {
        // Open up winner winner light war dinner screen and display playerId as victorious
     }
 
     public void UpdatePlayerView(PlayerData playerData)
     {
-        _playerViews[(int)playerData.id].UpdateVisual(playerData);
+        _playerViews[playerData.id].UpdateVisual(playerData);
     }
 }

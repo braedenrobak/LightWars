@@ -2,12 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PlayerIds
-{
-    PlayerOne = 0,
-    PlayerTwo = 1
-};
-
 
 public class PlayerController {
 
@@ -17,18 +11,18 @@ public class PlayerController {
     {
         _players = new PlayerModel[2];
 
-        _players[(int)PlayerIds.PlayerOne] = new PlayerModel(3, 3);
-        _players[(int)PlayerIds.PlayerTwo] = new PlayerModel(3, 3);
+        _players[Constants.PLAYER_ONE] = new PlayerModel(3, 3);
+        _players[Constants.PLAYER_TWO] = new PlayerModel(3, 3);
     }
 
-    public int GetPlayersCurrentEnergy(PlayerIds id)
+    public int GetPlayersCurrentEnergy(int id)
     {
-        return _players[(int)id].GetEnergy();
+        return _players[id].GetEnergy();
     }
 
-    public int GetPlayersCurrentHealth(PlayerIds id)
+    public int GetPlayersCurrentHealth(int id)
     {
-        return _players[(int)id].GetHealth();
+        return _players[id].GetHealth();
     }
 
     public void AddEnergyToPlayers()
@@ -39,9 +33,9 @@ public class PlayerController {
         }
     }
 
-    public bool PlayerCanCastEnergyOfCost(PlayerIds id, int energyCost)
+    public bool PlayerCanCastEnergyOfCost(int id, int energyCost)
     {
-        return _players[(int)id].HasEnoughEnergy(energyCost);
+        return _players[id].HasEnoughEnergy(energyCost);
     }
 
     public void PlayerCastsEnergy(int id, int energyCost)
@@ -49,8 +43,8 @@ public class PlayerController {
         _players[id].SpendEnergy(energyCost); 
     }
 	
-    public void DamagePlayer(PlayerIds id, int damage)
+    public void DamagePlayer(int id, int damage)
     {
-        _players[(int)id].Damage(damage);
+        _players[id].Damage(damage);
     }
 }

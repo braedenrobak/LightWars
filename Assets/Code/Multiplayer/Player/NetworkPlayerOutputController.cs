@@ -20,12 +20,12 @@ public class NetworkPlayerOutputController : NetworkBehaviour, IPlayerViewOutput
         _networkPlayerViews.Add(playerView);
     }
 
-    public void DisplayPlayerHit(PlayerIds playerId, int damage)
+    public void DisplayPlayerHit(int playerId, int damage)
     {
         // Run damage anim
     }
 
-    public void GameOverWithWinner(PlayerIds playerId)
+    public void GameOverWithWinner(int playerId)
     {
         // Load winner stuff
     }
@@ -37,8 +37,8 @@ public class NetworkPlayerOutputController : NetworkBehaviour, IPlayerViewOutput
         
         if (GameIsLoaded())
         {
-            _networkPlayerViews[(int)playerData.id].UpdateEnergy(playerData.energy);
-            _networkPlayerViews[(int)playerData.id].UpdateHealth(playerData.health);
+            _networkPlayerViews[playerData.id].UpdateEnergy(playerData.energy);
+            _networkPlayerViews[playerData.id].UpdateHealth(playerData.health);
         }
     }
 

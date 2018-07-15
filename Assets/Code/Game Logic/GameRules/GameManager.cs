@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class PlayerData
 {
-    public PlayerIds id;
+    public int id;
     public int health;
     public int energy;
 
@@ -13,7 +15,7 @@ public class PlayerData
 
     public PlayerData(int id, int health, int energy)
     {
-        this.id = (PlayerIds)id;
+        this.id = id;
         this.health = health;
         this.energy = energy;
     }
@@ -44,8 +46,8 @@ public class GameManager : MonoBehaviour {
         CreationTime = 3.0f;
         _playerViewOutputController = gameObject.GetComponent<IPlayerViewOutputController>();
 
-        _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(PlayerIds.PlayerOne));
-        _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(PlayerIds.PlayerTwo));
+        _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(Constants.PLAYER_ONE));
+        _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(1));
     }
 	
 	// Update is called once per frame
@@ -56,18 +58,18 @@ public class GameManager : MonoBehaviour {
         {
             _playerController.AddEnergyToPlayers();
 
-            _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(PlayerIds.PlayerOne));
-            _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(PlayerIds.PlayerTwo));
+            _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(Constants.PLAYER_ONE));
+            _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(Constants.PLAYER_TWO));
             _gameTimer = 0.0f;
         }
 
-        if(_playerController.GetPlayersCurrentHealth(PlayerIds.PlayerOne) <= 0)
+        if(_playerController.GetPlayersCurrentHealth(Constants.PLAYER_ONE) <= 0)
         {
-            _playerViewOutputController.GameOverWithWinner(PlayerIds.PlayerTwo);
+            _playerViewOutputController.GameOverWithWinner(Constants.PLAYER_TWO);
         }
-        else if(_playerController.GetPlayersCurrentHealth(PlayerIds.PlayerTwo) <= 0)
+        else if(_playerController.GetPlayersCurrentHealth(Constants.PLAYER_TWO) <= 0)
         {
-            _playerViewOutputController.GameOverWithWinner((int)PlayerIds.PlayerOne);
+            _playerViewOutputController.GameOverWithWinner(Constants.PLAYER_ONE);
         }
 	}
 
@@ -77,22 +79,22 @@ public class GameManager : MonoBehaviour {
 
         _playerViewOutputController.DisplayPlayerHit(player.id, energy.damage);
 
-        _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData((PlayerIds)player.id));
+        _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(player.id));
     }
 
     public bool PlayerCastEnergy(int playerId, int energyCost)
     {
-        if(_playerController.PlayerCanCastEnergyOfCost((PlayerIds)playerId, energyCost))
+        if(_playerController.PlayerCanCastEnergyOfCost(playerId, energyCost))
         {
             _playerController.PlayerCastsEnergy(playerId, energyCost);
-            _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData((PlayerIds)playerId));
+            _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(playerId));
             return true;
         }
 
         return false;
     }
 
-    private PlayerData ConvertToPlayerData(PlayerIds player)
+    private PlayerData ConvertToPlayerData(int player)
     {
         PlayerData convertedPlayerData = new PlayerData
         {
