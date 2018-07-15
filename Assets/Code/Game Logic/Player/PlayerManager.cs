@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class PlayerController {
+public class PlayerManager {
 
     private PlayerModel[] _players;
 
-    public PlayerController()
+    public PlayerManager()
     {
         _players = new PlayerModel[2];
 

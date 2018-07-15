@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour {
 
     public float CreationTime = 3.0f;
 
-    private PlayerController _playerController;
+    private PlayerManager _playerManager;
 
     private float _gameTimer;
 
@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour {
     // Use this for initialization
     void Awake()
     {
-        _playerController = new PlayerController();
+        _playerManager = new PlayerManager();
         _gameTimer = 0.0f;
         CreationTime = 3.0f;
         _playerViewOutputController = gameObject.GetComponent<IPlayerViewOutputController>();
@@ -56,18 +56,18 @@ public class GameManager : MonoBehaviour {
 
         if (_gameTimer >= CreationTime)
         {
-            _playerController.AddEnergyToPlayers();
+            _playerManager.AddEnergyToPlayers();
 
             _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(Constants.PLAYER_ONE));
             _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(Constants.PLAYER_TWO));
             _gameTimer = 0.0f;
         }
 
-        if(_playerController.GetPlayersCurrentHealth(Constants.PLAYER_ONE) <= 0)
+        if(_playerManager.GetPlayersCurrentHealth(Constants.PLAYER_ONE) <= 0)
         {
             _playerViewOutputController.GameOverWithWinner(Constants.PLAYER_TWO);
         }
-        else if(_playerController.GetPlayersCurrentHealth(Constants.PLAYER_TWO) <= 0)
+        else if(_playerManager.GetPlayersCurrentHealth(Constants.PLAYER_TWO) <= 0)
         {
             _playerViewOutputController.GameOverWithWinner(Constants.PLAYER_ONE);
         }
@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour {
 
     public void PlayerHit(PlayerData player, EnergyData energy)
     {
-        _playerController.DamagePlayer(player.id, energy.damage);
+        _playerManager.DamagePlayer(player.id, energy.damage);
 
         _playerViewOutputController.DisplayPlayerHit(player.id, energy.damage);
 
@@ -84,9 +84,9 @@ public class GameManager : MonoBehaviour {
 
     public bool PlayerCastEnergy(int playerId, int energyCost)
     {
-        if(_playerController.PlayerCanCastEnergyOfCost(playerId, energyCost))
+        if(_playerManager.PlayerCanCastEnergyOfCost(playerId, energyCost))
         {
-            _playerController.PlayerCastsEnergy(playerId, energyCost);
+            _playerManager.PlayerCastsEnergy(playerId, energyCost);
             _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(playerId));
             return true;
         }
@@ -100,8 +100,8 @@ public class GameManager : MonoBehaviour {
         {
             id = player,
 
-            health = _playerController.GetPlayersCurrentHealth(player),
-            energy = _playerController.GetPlayersCurrentEnergy(player)
+            health = _playerManager.GetPlayersCurrentHealth(player),
+            energy = _playerManager.GetPlayersCurrentEnergy(player)
         };
 
         return convertedPlayerData;
