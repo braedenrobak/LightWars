@@ -15,12 +15,7 @@ public class SinglePlayerMain : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-        _energySpawner = new SinglePlayerEnergySpawner();
-        _energySpawner.SetEnergyLoader(new FakeEnergyLoader());
-        (_energySpawner as SinglePlayerEnergySpawner).energyPrefab = _energyPrefab;
-
-        _energySpawner.LoadEnergies();
-
+        
         _players = new List<GameObject>();
 
         for (int i = 0; i < 2; i++)
@@ -35,6 +30,11 @@ public class SinglePlayerMain : MonoBehaviour {
 
         gameObject.AddComponent<PlayerViewOutputController>().SetPlayerViews(playerViews);
 
+        _energySpawner = new SinglePlayerEnergySpawner();
+        _energySpawner.SetEnergyLoader(new FakeEnergyLoader());
+        (_energySpawner as SinglePlayerEnergySpawner).energyPrefab = _energyPrefab;
+
+        _energySpawner.LoadEnergies();
         _gameManager = gameObject.AddComponent<GameManager>();
 
         playerViews[0].InitializePlayerView(_gameManager, _energySpawner);
