@@ -12,6 +12,11 @@ public class NetworkEnergyView : NetworkBehaviour, IEnergySpawnable {
         _ownerId = ownerId;
     }
 
+    public int GetOwnerId()
+    {
+        return _ownerId;
+    }
+
     [SyncVar(hook = "UpdateSpeed")]
     private int _speed = -1;
     public void UpdateSpeed(int speed)
@@ -61,7 +66,8 @@ public class NetworkEnergyView : NetworkBehaviour, IEnergySpawnable {
         }
         else
         {
-            Destroy(gameObject);
+            if(collision.gameObject.GetComponent<NetworkEnergyView>().GetOwnerId() != _ownerId)
+                Destroy(gameObject);
         }
     }
 }
