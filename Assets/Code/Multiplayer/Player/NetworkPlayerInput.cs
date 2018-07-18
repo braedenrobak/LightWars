@@ -55,20 +55,19 @@ public class NetworkPlayerInput : NetworkBehaviour {
         _gameManager.PlayerHit(new PlayerData(_playerId, 0, 0), energyData);
     }
 
-    public void OnMouseDown()
+    public void ShootEnergy(int cost, Vector3 position)
     {
         if (!isLocalPlayer)
             return;
-        
-        CmdPlayerShoot(1);
+        CmdPlayerShoot(cost, position);
     }
 
     [Command]
-    public void CmdPlayerShoot(int energyCost)
+    public void CmdPlayerShoot(int energyCost, Vector3 position)
     {
         if (_gameManager.PlayerCastEnergy(_playerId, energyCost))
         {
-            _energySpawner.SpawnEnergy(0, transform.position, _playerId);
+            _energySpawner.SpawnEnergy(0, position, _playerId);
         }
         else
         {
