@@ -217,6 +217,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   energyPrefab: {fileID: 1955556986442660, guid: 9efe372e6ed1c4d92bb40191d39f4237,
     type: 2}
+  spawnPointPrefab: {fileID: 1657552474711300, guid: d49f4a5a6c6e848a39a4909164b5517b,
+    type: 2}
 --- !u!114 &1180472763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,6 +324,7 @@ MonoBehaviour:
   m_OnlineScene: 
   m_SpawnPrefabs:
   - {fileID: 1955556986442660, guid: 9efe372e6ed1c4d92bb40191d39f4237, type: 2}
+  - {fileID: 1657552474711300, guid: d49f4a5a6c6e848a39a4909164b5517b, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
