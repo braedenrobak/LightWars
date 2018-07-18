@@ -8,9 +8,12 @@ public class BaseSpawnPointSpawner {
 
     private ISpawnPointLoader _spawnPointLoader;
 
+    protected SpawnPointManager _spawnPointManager;
+
     public BaseSpawnPointSpawner()
     {
         _spawnPoints = new List<SpawnPoint>();
+        _spawnPointManager = new SpawnPointManager();
     }
 
     public List<SpawnPoint> GetSpawnPoints()
@@ -37,6 +40,8 @@ public class BaseSpawnPointSpawner {
 
             _spawnPoints.Add(nextSpawnPoint);
         }
+
+        _spawnPointManager.SetSpawnPoints(_spawnPoints);
     }
 
 }
