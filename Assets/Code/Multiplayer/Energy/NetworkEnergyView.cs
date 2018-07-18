@@ -34,10 +34,9 @@ public class NetworkEnergyView : NetworkBehaviour, IEnergySpawnable {
 
     public void Start()
     {
-        Vector3 startPosition = GameObject.Find("Player " + _ownerId).transform.position;
-        transform.position = startPosition;
+        Vector3 ownerPosition = GameObject.Find("Player " + _ownerId).transform.position;
 
-        if (startPosition == Constants.LOCAL_PLAYER_POSITION)
+        if (ownerPosition == Constants.LOCAL_PLAYER_POSITION)
         {
             directionInverter = 1.0f;
         }
@@ -61,13 +60,14 @@ public class NetworkEnergyView : NetworkBehaviour, IEnergySpawnable {
             {
                 collision.GetComponent<NetworkPlayerInput>().PlayerHit(0);
 
-                Destroy(gameObject);
+
+                NetworkServer.Destroy(gameObject);
             }
         }
         else
         {
             if(collision.gameObject.GetComponent<NetworkEnergyView>().GetOwnerId() != _ownerId)
-                Destroy(gameObject);
+                NetworkServer.Destroy(gameObject);
         }
     }
 }
