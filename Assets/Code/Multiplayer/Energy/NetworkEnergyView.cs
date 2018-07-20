@@ -34,7 +34,9 @@ public class NetworkEnergyView : NetworkBehaviour, IEnergySpawnable {
 
     public void Start()
     {
+        // Initializing posiiton based on their owning players position for each Client
         Vector3 ownerPosition = GameObject.Find("Player " + _ownerId).transform.position;
+        transform.position = new Vector3(transform.position.x, ownerPosition.y, 0.0f);
 
         if (ownerPosition == Constants.LOCAL_PLAYER_POSITION)
         {
@@ -52,6 +54,7 @@ public class NetworkEnergyView : NetworkBehaviour, IEnergySpawnable {
         transform.position += new Vector3(0, (_speed * Time.deltaTime * directionInverter));
     }
 
+  
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Players")
