@@ -21,6 +21,7 @@ public class NetworkMain : MonoBehaviour {
         _networkPlayerInputs = new List<NetworkPlayerInput>();
 
         _energySpawner = new NetworkEnergySpawner();
+        _energySpawner.SetEnergyLoader(new NetworkTestEnergyLoader());
         (_energySpawner as NetworkEnergySpawner).energyPrefab = energyPrefab;
 
         _spawnPointSpawner = new NetworkSpawnPointSpawner();
@@ -43,6 +44,7 @@ public class NetworkMain : MonoBehaviour {
         {
             (_spawnPointSpawner as NetworkSpawnPointSpawner).SetNetworkPlayerInputs(_networkPlayerInputs);
             _spawnPointSpawner.LoadSpawnPoints();
+            _energySpawner.LoadEnergies();
             _gameManager.enabled = true;
         }
     }
