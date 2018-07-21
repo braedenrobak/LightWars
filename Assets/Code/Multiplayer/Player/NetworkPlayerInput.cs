@@ -67,7 +67,7 @@ public class NetworkPlayerInput : NetworkBehaviour {
     {
         if (_gameManager.PlayerCastEnergy(_playerId, energyCost))
         {
-            _energySpawner.SpawnEnergy(0, position, _playerId);
+            _energySpawner.SpawnEnergy(energyCost, position, _playerId);
         }
         else
         {

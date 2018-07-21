@@ -9,6 +9,11 @@ public class NetworkSpawnPointView : NetworkBehaviour {
 
     private NetworkPlayerInput _networkPlayerInput;
 
+    private bool _spawnClicked = false;
+    private bool _clickTracking = false;
+
+    private int _clickCount = 0;
+
     [SyncVar (hook = "ChangedOwnerId")]
     private int _ownerId;
     public void ChangedOwnerId(int ownerId)
@@ -38,9 +43,39 @@ public class NetworkSpawnPointView : NetworkBehaviour {
         _networkPlayerInput = networkPlayerInput;
     }
 
-    public void OnMouseDown()
+	public void OnMouseDown()
     {
+        _spawnClicked = true;
+
+        if(!_clickTracking)
+        {
+            _clickTracking = true;
+            StartCoroutine(StartClickTracking());
+        }
+
         // Tell energySpawner to spawn energy at position
-        GameObject.Find("Player " + _ownerId).GetComponent<NetworkPlayerInput>().ShootEnergy(1, gameObject.transform.position);
+        //GameObject.Find("Player " + _ownerId).GetComponent<NetworkPlayerInput>().ShootEnergy(1, gameObject.transform.position);
+    }
+
+    private IEnumerator StartClickTracking()
+    {
+        float clickWindow = 0.5f;
+
+        while(clickWindow > 0.0f && _clickCount < 3)
+        {
+            clickWindow -= Time.deltaTime;
+
+            if(_spawnClicked)
+            {
+                _spawnClicked = false;
+                _clickCount++;
+                clickWindow = 0.5f;
+            }
+            yield return null;
+        }
+
+        GameObject.Find("Player " + _ownerId).GetComponent<NetworkPlayerInput>().ShootEnergy(_clickCount, gameObject.transform.position);
+        _clickCount = 0;
+        _clickTracking = false;
     }
 }

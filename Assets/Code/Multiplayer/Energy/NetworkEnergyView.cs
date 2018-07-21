@@ -46,6 +46,16 @@ public class NetworkEnergyView : NetworkBehaviour, IEnergySpawnable {
         {
             directionInverter = -1.0f;
         }
+
+        // Set color based on speed
+        if (_speed == 2)
+        {
+            gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        }
+        else if (_speed == 1)
+        {
+            gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+        }
     }
 
 
