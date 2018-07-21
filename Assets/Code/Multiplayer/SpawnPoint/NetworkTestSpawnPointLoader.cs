@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FakeSpawnPointLoader : ISpawnPointLoader
+public class NetworkTestSpawnPointLoader : ISpawnPointLoader
 {
     private int[] _owners = { 0,0,0,1,1,1 };
     private int[] _siblings = { 3,4,5,0,1,2 };

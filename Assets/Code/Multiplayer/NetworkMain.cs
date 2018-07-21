@@ -24,7 +24,7 @@ public class NetworkMain : MonoBehaviour {
         (_energySpawner as NetworkEnergySpawner).energyPrefab = energyPrefab;
 
         _spawnPointSpawner = new NetworkSpawnPointSpawner();
-        _spawnPointSpawner.SetSpawnPointLoader(new FakeSpawnPointLoader());
+        _spawnPointSpawner.SetSpawnPointLoader(new NetworkTestSpawnPointLoader());
         (_spawnPointSpawner as NetworkSpawnPointSpawner).spawnPointPrefab = spawnPointPrefab;
 
 
