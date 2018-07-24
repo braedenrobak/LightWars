@@ -29,6 +29,7 @@ public class NetworkSpawnPointView : NetworkBehaviour {
     // Set the non-local players view to the top of the screen
     public override void OnStartClient()
     {
+        Input.simulateMouseWithTouches = true;
         Vector3 ownerPosition = GameObject.Find("Player " + _ownerId).transform.position;
         if (!isLocalPlayer)
         {
