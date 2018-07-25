@@ -8,7 +8,7 @@ public class NetworkTestEnergyLoader : IEnergyLoader
     private int[] _cost = { 1, 2, 3 };
     private int[] _damage = { 1, 2, 3 };
     private int[] _health = { 1, 2, 3 };
-    private int[] _speed = { 3, 2, 1 };
+    private int[] _speed = { 1, 2, 3 };
     private string[] _name = { "FastWeak", "Average", "SlowStrong" };
 
     private int _index = -1;

@@ -31,15 +31,20 @@ public class NetworkSpawnPointView : NetworkBehaviour {
     {
         Input.simulateMouseWithTouches = true;
         Vector3 ownerPosition = GameObject.Find("Player " + _ownerId).transform.position;
-        if (!isLocalPlayer)
-        {
-            transform.position = new Vector3(transform.position.x, ownerPosition.y, -1.0f);
-        }
+        transform.position = new Vector3(transform.position.x, ownerPosition.y, -1.0f);
 
         gameObject.name = "Owned by " + _ownerId;
     }
 
-    public void SetPlayerInput(NetworkPlayerInput networkPlayerInput)
+	public void Start()
+	{
+        Vector3 ownerPosition = GameObject.Find("Player " + _ownerId).transform.position;
+
+
+        transform.Rotate(0.0f, 0.0f, -90.0f * Mathf.Sign(ownerPosition.y));
+	}
+
+	public void SetPlayerInput(NetworkPlayerInput networkPlayerInput)
     {
         _networkPlayerInput = networkPlayerInput;
     }
@@ -53,9 +58,6 @@ public class NetworkSpawnPointView : NetworkBehaviour {
             _clickTracking = true;
             StartCoroutine(StartClickTracking());
         }
-
-        // Tell energySpawner to spawn energy at position
-        //GameObject.Find("Player " + _ownerId).GetComponent<NetworkPlayerInput>().ShootEnergy(1, gameObject.transform.position);
     }
 
     private IEnumerator StartClickTracking()
