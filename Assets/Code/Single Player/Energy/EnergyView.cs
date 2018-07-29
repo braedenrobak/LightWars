@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnergyView : MonoBehaviour {
 
-    private int _speed;
+    private float _speed;
     private int _ownerId;
 
     public void Awake()
@@ -24,7 +24,7 @@ public class EnergyView : MonoBehaviour {
         _ownerId = playerId;
     }
 
-    public void SetSpeed(int speed)
+    public void SetSpeed(float speed)
     {
         _speed = speed;
     }

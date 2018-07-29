@@ -7,11 +7,11 @@ public class EnergyType {
     
 	private int _health;
     private int _cost;
-    private int _speed;
+    private float _speed;
     private string _name;
 
 
-    public EnergyType(int health, int cost, int speed, string name)
+    public EnergyType(int health, int cost, float speed, string name)
 	{
         _health = health;
 		_cost = cost;
@@ -29,7 +29,7 @@ public class EnergyType {
         return _cost;
     }
 
-    public int GetSpeed()
+    public float GetSpeed()
     {
         return _speed;
     }

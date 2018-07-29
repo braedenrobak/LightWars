@@ -38,9 +38,9 @@ public class MockEnergyLoader : IEnergyLoader
         return 3 + _offset;
     }
 
-    public int GetSpeed()
+    public float GetSpeed()
     {
-        return 2 + _offset;
+        return 2.0f + _offset;
     }
 
     public bool HasNextEnergy()

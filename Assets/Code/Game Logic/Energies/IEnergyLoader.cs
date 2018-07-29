@@ -10,7 +10,7 @@ public interface IEnergyLoader {
 
     int GetHealth();
 
-    int GetSpeed();
+    float GetSpeed();
 
     int GetDamage();
 

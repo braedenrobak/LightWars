@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IEnergySpawnable {
 
-    void InitializeEnergy(int ownerId, int speed);
+    void InitializeEnergy(int ownerId, float speed);
 }

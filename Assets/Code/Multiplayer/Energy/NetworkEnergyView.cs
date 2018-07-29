@@ -18,15 +18,15 @@ public class NetworkEnergyView : NetworkBehaviour, IEnergySpawnable {
     }
 
     [SyncVar(hook = "UpdateSpeed")]
-    private int _speed = -1;
-    public void UpdateSpeed(int speed)
+    private float _speed = -1;
+    public void UpdateSpeed(float speed)
     {
         _speed = speed;
     }
 
     private float directionInverter = 1.0f;
 
-    public void InitializeEnergy(int ownerId, int speed)
+    public void InitializeEnergy(int ownerId, float speed)
     {
         _ownerId = ownerId;
         _speed = speed;
@@ -48,11 +48,11 @@ public class NetworkEnergyView : NetworkBehaviour, IEnergySpawnable {
         }
 
         // Set color based on speed
-        if (_speed == 2)
+        if (_speed < 4.0f && _speed > 3.0f)
         {
             gameObject.GetComponent<SpriteRenderer>().color = Color.red;
         }
-        else if (_speed == 1)
+        else if (_speed < 3.0f)
         {
             gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
         }

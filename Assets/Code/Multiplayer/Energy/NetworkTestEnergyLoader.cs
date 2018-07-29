@@ -8,7 +8,7 @@ public class NetworkTestEnergyLoader : IEnergyLoader
     private int[] _cost = { 1, 2, 3 };
     private int[] _damage = { 1, 2, 3 };
     private int[] _health = { 1, 2, 3 };
-    private int[] _speed = { 1, 2, 3 };
+    private float[] _speed = { 2.5f, 3.5f, 4.5f };
     private string[] _name = { "FastWeak", "Average", "SlowStrong" };
 
     private int _index = -1;
@@ -38,7 +38,7 @@ public class NetworkTestEnergyLoader : IEnergyLoader
         return _health[_index];
     }
 
-    public int GetSpeed()
+    public float GetSpeed()
     {
         return _speed[_index];
     }

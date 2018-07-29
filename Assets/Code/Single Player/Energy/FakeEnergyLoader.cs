@@ -31,9 +31,9 @@ public class FakeEnergyLoader : IEnergyLoader
         return 1;
     }
 
-    public int GetSpeed()
+    public float GetSpeed()
     {
-        return 1;
+        return 1.0f;
     }
 
     public bool HasNextEnergy()
