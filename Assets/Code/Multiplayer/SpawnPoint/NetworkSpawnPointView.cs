@@ -39,9 +39,6 @@ public class NetworkSpawnPointView : NetworkBehaviour {
 	public void Start()
 	{
         Vector3 ownerPosition = GameObject.Find("Player " + _ownerId).transform.position;
-
-
-        transform.Rotate(0.0f, 0.0f, -90.0f * Mathf.Sign(ownerPosition.y));
 	}
 
 	public void SetPlayerInput(NetworkPlayerInput networkPlayerInput)
@@ -62,7 +59,7 @@ public class NetworkSpawnPointView : NetworkBehaviour {
 
     private IEnumerator StartClickTracking()
     {
-        float clickWindow = 0.5f;
+        float clickWindow = 0.2f;
 
         while(clickWindow > 0.0f && _clickCount < 3)
         {
@@ -72,7 +69,7 @@ public class NetworkSpawnPointView : NetworkBehaviour {
             {
                 _spawnClicked = false;
                 _clickCount++;
-                clickWindow = 0.5f;
+                clickWindow = 0.2f;
             }
             yield return null;
         }

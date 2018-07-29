@@ -30,7 +30,7 @@ public class EnergyData
 
 public class GameManager : MonoBehaviour {
 
-    public float CreationTime = 3.0f;
+    public float CreationTime = 1.5f;
 
     private PlayerManager _playerManager;
 
@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour {
     {
         _playerManager = new PlayerManager();
         _gameTimer = 0.0f;
-        CreationTime = 3.0f;
+        CreationTime = 1.5f;
         _playerViewOutputController = gameObject.GetComponent<IPlayerViewOutputController>();
 
         _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(Constants.PLAYER_ONE));
