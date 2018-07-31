@@ -40,8 +40,14 @@ public class NetworkPlayerInput : NetworkBehaviour {
         gameObject.name = "Player " + _playerId;
     }
 
+	public override void OnStartLocalPlayer()
+	{
+        Constants.LOCAL_PLAYER_ID = _playerId;
 
-    public void PlayerHit(int energyType)
+        Debug.LogError("Local player id ==> " + _playerId);
+	}
+
+	public void PlayerHit(int energyType)
     {
         if (!isServer)
             return;

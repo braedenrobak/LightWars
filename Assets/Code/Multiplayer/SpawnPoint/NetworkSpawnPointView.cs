@@ -30,8 +30,15 @@ public class NetworkSpawnPointView : NetworkBehaviour {
     public override void OnStartClient()
     {
         Input.simulateMouseWithTouches = true;
-        Vector3 ownerPosition = GameObject.Find("Player " + _ownerId).transform.position;
-        transform.position = new Vector3(transform.position.x, ownerPosition.y, -1.0f);
+
+        if(_ownerId == Constants.LOCAL_PLAYER_ID)
+        {
+            transform.position = new Vector3(transform.position.x, Constants.LOCAL_PLAYER_POSITION.y, -1.0f);
+        }
+        else
+        {
+            transform.position = new Vector3(transform.position.x, Constants.NON_LOCAL_PLAYER_POSITION.y, -1.0f);
+        }
 
         gameObject.name = "Owned by " + _ownerId;
     }

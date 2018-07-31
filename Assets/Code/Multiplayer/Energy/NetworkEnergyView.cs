@@ -34,17 +34,15 @@ public class NetworkEnergyView : NetworkBehaviour, IEnergySpawnable {
 
     public void Start()
     {
-        // Initializing posiiton based on their owning players position for each Client
-        Vector3 ownerPosition = GameObject.Find("Player " + _ownerId).transform.position;
-        transform.position = new Vector3(transform.position.x, ownerPosition.y, 0.0f);
-
-        if (ownerPosition == Constants.LOCAL_PLAYER_POSITION)
+        if (Constants.LOCAL_PLAYER_ID == _ownerId)
         {
             directionInverter = 1.0f;
+            transform.position = new Vector3(transform.position.x, Constants.LOCAL_PLAYER_POSITION.y, 0.0f);
         }
         else
         {
             directionInverter = -1.0f;
+            transform.position = new Vector3(transform.position.x, Constants.NON_LOCAL_PLAYER_POSITION.y, 0.0f);
         }
 
         // Set color based on speed
