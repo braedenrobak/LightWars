@@ -5,10 +5,6 @@ using UnityEngine.Networking;
 
 public class NetworkSpawnPointView : NetworkBehaviour {
 
-    private Vector3 _endPosition;
-
-    private NetworkPlayerInput _networkPlayerInput;
-
     private bool _spawnClicked = false;
     private bool _clickTracking = false;
 
@@ -47,11 +43,6 @@ public class NetworkSpawnPointView : NetworkBehaviour {
 	{
         Vector3 ownerPosition = GameObject.Find("Player " + _ownerId).transform.position;
 	}
-
-	public void SetPlayerInput(NetworkPlayerInput networkPlayerInput)
-    {
-        _networkPlayerInput = networkPlayerInput;
-    }
 
 	public void OnMouseDown()
     {

@@ -20,7 +20,6 @@ public class NetworkMain : MonoBehaviour {
     {
         if(!_gameManager.enabled && GameHasStarted())
         {
-            (_spawnPointSpawner as NetworkSpawnPointSpawner).SetNetworkPlayerInputs(_networkPlayerInputs);
             _spawnPointSpawner.LoadSpawnPoints();
             _energySpawner.LoadEnergies();
             _gameManager.enabled = true;
