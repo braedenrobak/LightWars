@@ -41,7 +41,6 @@ public class AspectUtility : MonoBehaviour {
         // If the current aspect ratio is already approximately equal to the desired aspect ratio,
         // use a full-screen Rect (in case it was set to something else previously)
  
-        Debug.Log ("currentAspectRatio = " + currentAspectRatio + ", wantedAspectRatio = " + wantedAspectRatio);
  
         if ((int)(currentAspectRatio * 100) / 100.0f == (int)(wantedAspectRatio * 100) / 100.0f) {
             cam.rect = new Rect(0.0f, 0.0f, 1.0f, 1.0f);

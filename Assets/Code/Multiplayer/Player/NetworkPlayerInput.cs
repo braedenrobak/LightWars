@@ -43,8 +43,6 @@ public class NetworkPlayerInput : NetworkBehaviour {
 	public override void OnStartLocalPlayer()
 	{
         Constants.LOCAL_PLAYER_ID = _playerId;
-
-        Debug.LogError("Local player id ==> " + _playerId);
 	}
 
 	public void PlayerHit(int energyType)
