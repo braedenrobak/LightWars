@@ -60,15 +60,16 @@ public class RoundManagerTests{
     {
         _roundManager.EndRound(1);
 
-        Assert.IsTrue(_roundManager.HasWinner() == -1);
+        Assert.IsFalse(_roundManager.HasWinner());
 
         _roundManager.EndRound(1);
 
-        Assert.IsTrue(_roundManager.HasWinner() == -1);
+        Assert.IsFalse(_roundManager.HasWinner());
 
         _roundManager.EndRound(1);
 
-        Assert.IsTrue(_roundManager.HasWinner() == 1);
+        Assert.IsTrue(_roundManager.HasWinner());
+        Assert.AreEqual(1, _roundManager.GetWinner());
 
 
 
@@ -77,15 +78,16 @@ public class RoundManagerTests{
 
         _roundManager.EndRound(0);
 
-        Assert.IsTrue(_roundManager.HasWinner() == -1);
+        Assert.IsFalse(_roundManager.HasWinner());
 
         _roundManager.EndRound(1);
 
-        Assert.IsTrue(_roundManager.HasWinner() == -1);
+        Assert.IsFalse(_roundManager.HasWinner());
 
         _roundManager.EndRound(0);
 
-        Assert.IsTrue(_roundManager.HasWinner() == 0);
+        Assert.IsTrue(_roundManager.HasWinner());
+        Assert.AreEqual(0, _roundManager.GetWinner());
     }
 
     [Test]
@@ -97,10 +99,11 @@ public class RoundManagerTests{
 
         _roundManager.EndRound(1);
 
-        Assert.IsTrue(_roundManager.HasWinner() == -1);
+        Assert.IsFalse(_roundManager.HasWinner());
 
         _roundManager.EndRound(0);
 
-        Assert.IsTrue(_roundManager.HasWinner() == 0);
+        Assert.IsTrue(_roundManager.HasWinner());
+        Assert.AreEqual(0, _roundManager.GetWinner());
     }
 }

@@ -8,12 +8,18 @@ public class RoundManager {
     private int _numberOfRounds;
     private int _currentRound;
 
+    private int _winner;
+    private bool _hasWinner;
+
     private List<int> _roundWinners;
 
     public RoundManager(int numberOfRounds)
     {
         _numberOfRounds = numberOfRounds;
         _currentRound = 1;
+
+        _winner = -1;
+        _hasWinner = false;
 
         _roundWinners = new List<int>();
     }
@@ -37,9 +43,26 @@ public class RoundManager {
     {
         _roundWinners.Add(winnerOfRoundID);
         _currentRound++;
+
+        CalculateWinner();
     }
 
-    public int HasWinner()
+    public bool HasWinner()
+    {
+        return _hasWinner;
+    }
+
+    public int GetWinner()
+    {
+        return _winner;
+    }
+
+    public List<int> GetRoundWinners()
+    {
+        return _roundWinners;
+    }
+
+    private void CalculateWinner()
     {
         List<int> winners = _roundWinners;
 
@@ -47,9 +70,9 @@ public class RoundManager {
 
         int roundCount = 0;
         int lastWinner = -1;
-        foreach(int winnerId in winners)
+        foreach (int winnerId in winners)
         {
-            if(winnerId == lastWinner)
+            if (winnerId == lastWinner)
             {
                 roundCount++;
             }
@@ -61,15 +84,11 @@ public class RoundManager {
             lastWinner = winnerId;
 
             if (roundCount == GetBestOfRoundCount())
-                return winnerId;
+            {
+                _winner = winnerId;
+                _hasWinner = true;
+                break;
+            }
         }
-
-        return -1;
     }
-
-    public List<int> GetRoundWinners()
-    {
-        return _roundWinners;
-    }
-
 }

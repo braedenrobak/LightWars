@@ -34,6 +34,8 @@ public class GameManager : MonoBehaviour {
 
     private PlayerManager _playerManager;
 
+    private RoundManager _roundManager;
+
     private float _gameTimer;
 
     private IPlayerViewOutputController _playerViewOutputController;
@@ -42,12 +44,13 @@ public class GameManager : MonoBehaviour {
     void Awake()
     {
         _playerManager = new PlayerManager();
+        _roundManager = new RoundManager(3);
         _gameTimer = 0.0f;
         CreationTime = 1.5f;
         _playerViewOutputController = gameObject.GetComponent<IPlayerViewOutputController>();
 
         _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(Constants.PLAYER_ONE));
-        _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(1));
+        _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(Constants.PLAYER_TWO));
     }
 	
 	// Update is called once per frame
@@ -65,13 +68,41 @@ public class GameManager : MonoBehaviour {
 
         if(_playerManager.GetPlayersCurrentHealth(Constants.PLAYER_ONE) <= 0)
         {
-            _playerViewOutputController.GameOverWithWinner(Constants.PLAYER_TWO);
+            _roundManager.EndRound(Constants.PLAYER_TWO);
+
+
+            if (_roundManager.HasWinner())
+            {
+                _playerViewOutputController.GameOverWithWinner(_roundManager.GetWinner());
+            }
+            else
+            {
+                StartRound();
+            }
         }
         else if(_playerManager.GetPlayersCurrentHealth(Constants.PLAYER_TWO) <= 0)
         {
-            _playerViewOutputController.GameOverWithWinner(Constants.PLAYER_ONE);
+            _roundManager.EndRound(Constants.PLAYER_ONE);
+
+
+            if (_roundManager.HasWinner())
+            {
+                _playerViewOutputController.GameOverWithWinner(_roundManager.GetWinner());
+            }
+            else
+            {
+                StartRound();
+            }
         }
+
 	}
+
+    public void StartRound()
+    {
+        _playerManager = new PlayerManager();
+        _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(Constants.PLAYER_ONE));
+        _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(Constants.PLAYER_TWO));
+    }
 
     public void PlayerHit(PlayerData player, EnergyData energy)
     {
