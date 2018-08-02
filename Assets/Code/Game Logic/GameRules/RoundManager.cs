@@ -11,6 +11,8 @@ public class RoundManager {
     private int _winner;
     private bool _hasWinner;
 
+    private IRoundManagerVisual _roundManagerVisual;
+
     private List<int> _roundWinners;
 
     public RoundManager(int numberOfRounds)
@@ -22,6 +24,11 @@ public class RoundManager {
         _hasWinner = false;
 
         _roundWinners = new List<int>();
+    }
+
+    public void SetVisual(IRoundManagerVisual roundManagerVisual)
+    {
+        _roundManagerVisual = roundManagerVisual;
     }
 
     public int NumberOfRounds()
@@ -45,6 +52,13 @@ public class RoundManager {
         _currentRound++;
 
         CalculateWinner();
+
+        _roundManagerVisual.EndRound(winnerOfRoundID);
+    }
+
+    public bool RoundIsReady()
+    {
+        return _roundManagerVisual.RoundVisualHasFinished();
     }
 
     public bool HasWinner()

@@ -3,6 +3,8 @@ using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
 
+
+
 public class RoundManagerTests{
 
     private RoundManager _roundManager;
@@ -11,6 +13,7 @@ public class RoundManagerTests{
     public void Setup()
     {
         _roundManager = new RoundManager(5);
+        _roundManager.SetVisual(new NullRoundManagerVisual());
     }
 
     [TearDown]
@@ -31,6 +34,7 @@ public class RoundManagerTests{
         Assert.AreEqual(3, _roundManager.GetBestOfRoundCount());
 
         _roundManager = new RoundManager(6);
+        _roundManager.SetVisual(new NullRoundManagerVisual());
 
         Assert.AreEqual(4, _roundManager.GetBestOfRoundCount());
     }
@@ -75,6 +79,7 @@ public class RoundManagerTests{
 
 
         _roundManager = new RoundManager(3);
+        _roundManager.SetVisual(new NullRoundManagerVisual());
 
         _roundManager.EndRound(0);
 
@@ -94,6 +99,7 @@ public class RoundManagerTests{
     public void SuddenDeathOnTieGameWithEvenNumberOfRounds()
     {
         _roundManager = new RoundManager(2);
+        _roundManager.SetVisual(new NullRoundManagerVisual());
 
         _roundManager.EndRound(0);
 
@@ -106,4 +112,5 @@ public class RoundManagerTests{
         Assert.IsTrue(_roundManager.HasWinner());
         Assert.AreEqual(0, _roundManager.GetWinner());
     }
+
 }
