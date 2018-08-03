@@ -43,9 +43,9 @@ public class MockGameViewOutput : MonoBehaviour, IPlayerViewOutputController
 
 public class GameManagerTests
 {
-    private GameObject _gameControllerObject;
+    private GameObject _gameManagerObject;
 
-    private GameManager _gameController;
+    private GameManager _gameManager;
 
     private MockGameViewOutput _mockGameViewOutput;
 
@@ -53,16 +53,20 @@ public class GameManagerTests
     [SetUp]
     public void Setup()
     {
-        _gameControllerObject = new GameObject("Game Controller");
-        _mockGameViewOutput = _gameControllerObject.AddComponent<MockGameViewOutput>();
-        _gameController = _gameControllerObject.AddComponent<GameManager>();
+        _gameManagerObject = new GameObject("Game Controller");
+        _mockGameViewOutput = _gameManagerObject.AddComponent<MockGameViewOutput>();
+        _gameManager = _gameManagerObject.AddComponent<GameManager>();
+
+        RoundManager roundManager = new RoundManager(3);
+        roundManager.SetVisual(new NullRoundManagerVisual());
+        _gameManager.SetRoundManager(roundManager);
     }
 
     [TearDown]
     public void Teardown()
     {
-        _gameController = null;
-        Object.DestroyImmediate(_gameControllerObject);
+        _gameManager = null;
+        Object.DestroyImmediate(_gameManagerObject);
     }
 
     [UnityTest]
@@ -79,7 +83,7 @@ public class GameManagerTests
     [UnityTest]
     public IEnumerator PlayerTakesDamageGivenPlayerObjectAndEnergyObject()
     {
-        _gameController.PlayerHit(_mockGameViewOutput.playerOne, new EnergyData { energyType = 0, damage = 1} );
+        _gameManager.PlayerHit(_mockGameViewOutput.playerOne, new EnergyData { energyType = 0, damage = 1} );
 
         Assert.True(_mockGameViewOutput.wasHit);
         Assert.AreEqual(Constants.PLAYER_ONE, _mockGameViewOutput.hitPlayerId);
@@ -102,11 +106,11 @@ public class GameManagerTests
     [UnityTest]
     public IEnumerator GameOverOnPlayerLostBestOfRounds()
     {
-        _gameController.PlayerHit(_mockGameViewOutput.playerOne, new EnergyData { energyType = 0, damage = 4 });
+        _gameManager.PlayerHit(_mockGameViewOutput.playerOne, new EnergyData { energyType = 0, damage = 4 });
 
         yield return new WaitForSeconds(2.0f);
 
-        _gameController.PlayerHit(_mockGameViewOutput.playerOne, new EnergyData { energyType = 0, damage = 4 });
+        _gameManager.PlayerHit(_mockGameViewOutput.playerOne, new EnergyData { energyType = 0, damage = 4 });
 
         yield return new WaitForSeconds(2.0f);
 
@@ -121,12 +125,15 @@ public class GameManagerTests
     public IEnumerator GameManagerStartsFreshRoundOnRoundOver()
     {
 
-        _gameController.PlayerHit(_mockGameViewOutput.playerOne, new EnergyData { energyType = 0, damage = 4 });
+        _gameManager.PlayerHit(_mockGameViewOutput.playerOne, new EnergyData { energyType = 0, damage = 4 });
 
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.0f);
 
         Assert.AreEqual(3, _mockGameViewOutput.playerOne.health);
         Assert.AreEqual(3, _mockGameViewOutput.playerTwo.health);
+
+        Assert.AreEqual(3, _mockGameViewOutput.playerOne.energy);
+        Assert.AreEqual(3, _mockGameViewOutput.playerTwo.energy);
 
         yield return null;
     }

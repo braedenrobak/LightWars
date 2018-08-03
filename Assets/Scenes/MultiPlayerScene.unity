@@ -299,6 +299,12 @@ Prefab:
       propertyPath: m_AssetId.i15
       value: 244
       objectReference: {fileID: 0}
+    - target: {fileID: 114108999408461448, guid: a33bc7b5aaea54972b04c214ca55c7f4,
+        type: 2}
+      propertyPath: roundManagerVisualPrefab
+      value: 
+      objectReference: {fileID: 1278108560124750, guid: e3591973ef7054a04aa758ef586785d6,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a33bc7b5aaea54972b04c214ca55c7f4, type: 2}
   m_IsPrefabParent: 0

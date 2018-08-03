@@ -6,6 +6,7 @@ public class NetworkMain : MonoBehaviour {
 
     public GameObject energyPrefab;
     public GameObject spawnPointPrefab;
+    public GameObject roundManagerVisualPrefab;
 
     private GameManager _gameManager;
     private BaseEnergySpawner _energySpawner;
@@ -60,6 +61,13 @@ public class NetworkMain : MonoBehaviour {
         // Create Game Manager
         _gameManager = gameObject.AddComponent<GameManager>();
         _gameManager.enabled = false;
+
+        // Create RoundManager
+        RoundManager roundManager = new RoundManager(3);
+        GameObject roundManagerVisual = Instantiate(roundManagerVisualPrefab, Vector3.zero, Quaternion.identity);
+        roundManager.SetVisual(roundManagerVisual.GetComponent<IRoundManagerVisual>());
+
+        _gameManager.SetRoundManager(roundManager);
 
         _currentPlayerId = 0;
     }

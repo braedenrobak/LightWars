@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour {
     void Awake()
     {
         _playerManager = new PlayerManager();
-        _roundManager = new RoundManager(3);
+
         _gameTimer = 0.0f;
         CreationTime = 1.5f;
         _playerViewOutputController = gameObject.GetComponent<IPlayerViewOutputController>();
@@ -52,56 +52,66 @@ public class GameManager : MonoBehaviour {
         _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(Constants.PLAYER_ONE));
         _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(Constants.PLAYER_TWO));
     }
+
+    public void SetRoundManager(RoundManager roundManager)
+    {
+        _roundManager = roundManager;
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        _gameTimer += Time.deltaTime;
 
-        if (_gameTimer >= CreationTime)
+        if (_roundManager.RoundIsReady())
         {
-            _playerManager.AddEnergyToPlayers();
+            // Progress GM specific time
+            _gameTimer += Time.deltaTime;
 
-            _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(Constants.PLAYER_ONE));
-            _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(Constants.PLAYER_TWO));
-            _gameTimer = 0.0f;
-        }
-
-        if(_playerManager.GetPlayersCurrentHealth(Constants.PLAYER_ONE) <= 0)
-        {
-            _roundManager.EndRound(Constants.PLAYER_TWO);
-
-
-            if (_roundManager.HasWinner())
+            // Update player energies
+            if (_gameTimer >= CreationTime)
             {
-                _playerViewOutputController.GameOverWithWinner(_roundManager.GetWinner());
+                _playerManager.AddEnergyToPlayers();
+
+                _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(Constants.PLAYER_ONE));
+                _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(Constants.PLAYER_TWO));
+                _gameTimer = 0.0f;
             }
-            else
-            {
-                StartRound();
-            }
-        }
-        else if(_playerManager.GetPlayersCurrentHealth(Constants.PLAYER_TWO) <= 0)
-        {
-            _roundManager.EndRound(Constants.PLAYER_ONE);
 
 
-            if (_roundManager.HasWinner())
+            // Check for game end
+            if (_playerManager.GetPlayersCurrentHealth(Constants.PLAYER_ONE) <= 0)
             {
-                _playerViewOutputController.GameOverWithWinner(_roundManager.GetWinner());
+                _roundManager.EndRound(Constants.PLAYER_TWO);
+
+                CheckForWinner();
             }
-            else
+            else if (_playerManager.GetPlayersCurrentHealth(Constants.PLAYER_TWO) <= 0)
             {
-                StartRound();
+                _roundManager.EndRound(Constants.PLAYER_ONE);
+
+                CheckForWinner();
             }
         }
-
 	}
+
+    private void CheckForWinner()
+    {
+        if (_roundManager.HasWinner())
+        {
+            _playerViewOutputController.GameOverWithWinner(_roundManager.GetWinner());
+        }
+        else
+        {
+            StartRound();
+        }
+    }
+
 
     public void StartRound()
     {
         _playerManager = new PlayerManager();
         _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(Constants.PLAYER_ONE));
         _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(Constants.PLAYER_TWO));
+        _gameTimer = 0.0f;
     }
 
     public void PlayerHit(PlayerData player, EnergyData energy)

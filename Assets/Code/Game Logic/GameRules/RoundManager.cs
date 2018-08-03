@@ -17,6 +17,8 @@ public class RoundManager {
 
     public RoundManager(int numberOfRounds)
     {
+        _roundManagerVisual = new NullRoundManagerVisual();
+
         _numberOfRounds = numberOfRounds;
         _currentRound = 1;
 
