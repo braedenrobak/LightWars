@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class NetworkMain : MonoBehaviour {
 
@@ -65,6 +66,7 @@ public class NetworkMain : MonoBehaviour {
         // Create RoundManager
         RoundManager roundManager = new RoundManager(3);
         GameObject roundManagerVisual = Instantiate(roundManagerVisualPrefab, Vector3.zero, Quaternion.identity);
+        NetworkServer.Spawn(roundManagerVisual);
         roundManager.SetVisual(roundManagerVisual.GetComponent<IRoundManagerVisual>());
 
         _gameManager.SetRoundManager(roundManager);

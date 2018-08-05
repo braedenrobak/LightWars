@@ -6,15 +6,11 @@ using UnityEngine.Networking;
 
 public class NetworkRoundManagerVisual : NetworkBehaviour, IRoundManagerVisual
 {
-    
     public Text _announcerText;
 
-    [SyncVar(hook = "UpdateAnnouncerText")]
-    private string _currentAnnouncerText;
-
-	public void UpdateAnnouncerText(string currentAnnouncerText)
+    public void SetAnnouncerText(string text)
     {
-        _announcerText.text = currentAnnouncerText;
+        _announcerText.text = text;
     }
 
 	private bool _roundVisualFinished = true;
@@ -23,8 +19,17 @@ public class NetworkRoundManagerVisual : NetworkBehaviour, IRoundManagerVisual
 
 	public void EndRound(int winner)
     {
+        if (!isServer)
+            return;
+        RpcStartRoundVisual(winner);
+    }
+
+    [ClientRpc]
+    private void RpcStartRoundVisual(int winner)
+    {
         _roundVisualFinished = false;
         _currentRound++;
+
         StartCoroutine(PlayInbetweenRoundVisual(winner));
     }
 
@@ -32,39 +37,37 @@ public class NetworkRoundManagerVisual : NetworkBehaviour, IRoundManagerVisual
     {
         if(winnerId == Constants.LOCAL_PLAYER_ID)
         {
-            UpdateAnnouncerText("You won the round!");
-            //_announcerText.text = "You won the round!";
+            SetAnnouncerText("You won the round!");
         }
         else
         {
-            UpdateAnnouncerText("You lost the round you big fat loser!");
-            //_announcerText.text = "You lost the round you big fat loser!";
+            SetAnnouncerText("You lost the round you big fat loser!");
         }
 
         yield return new WaitForSeconds(2.0f);
 
-        _announcerText.text = "Round " + _currentRound + "!";
+        SetAnnouncerText( "Round " + _currentRound + "!");
 
         yield return new WaitForSeconds(1.5f);
 
-        _announcerText.text = "3";
+        SetAnnouncerText("3");
 
         yield return new WaitForSeconds(1.0f);
 
-        _announcerText.text = "2";
+        SetAnnouncerText("2");
 
         yield return new WaitForSeconds(1.0f);
 
-        _announcerText.text = "1";
+        SetAnnouncerText("1");
 
         yield return new WaitForSeconds(1.0f);
 
-        _announcerText.text = "Go";
+        SetAnnouncerText("Go");
         _roundVisualFinished = true;
 
         yield return new WaitForSeconds(0.5f);
 
-        _announcerText.text = "";
+        SetAnnouncerText("");
     }
 
     public bool RoundVisualHasFinished()
