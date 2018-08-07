@@ -23,6 +23,11 @@ public class MockPlayModeRoundManagerVisual : MonoBehaviour, IRoundManagerVisual
 
         _roundIsReady = true;
     }
+
+    public void StartGame()
+    {
+        // Stubbed
+    }
 }
 
 public class RoundManagerPlayModeTest {

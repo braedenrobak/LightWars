@@ -48,6 +48,11 @@ public class RoundManager {
         return _currentRound;
     }
 
+    public void StartGame()
+    {
+        _roundManagerVisual.StartGame();
+    }
+
     public void EndRound(int winnerOfRoundID)
     {
         _roundWinners.Add(winnerOfRoundID);

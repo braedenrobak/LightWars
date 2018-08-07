@@ -13,7 +13,7 @@ public class NetworkRoundManagerVisual : NetworkBehaviour, IRoundManagerVisual
         _announcerText.text = text;
     }
 
-	private bool _roundVisualFinished = true;
+	private bool _roundVisualFinished = false;
 
     private int _currentRound = 1;
 
@@ -35,7 +35,7 @@ public class NetworkRoundManagerVisual : NetworkBehaviour, IRoundManagerVisual
 
     public IEnumerator PlayInbetweenRoundVisual(int winnerId)
     {
-        if(winnerId == Constants.LOCAL_PLAYER_ID)
+        if (winnerId == Constants.LOCAL_PLAYER_ID)
         {
             SetAnnouncerText("You won the round!");
         }
@@ -46,7 +46,7 @@ public class NetworkRoundManagerVisual : NetworkBehaviour, IRoundManagerVisual
 
         yield return new WaitForSeconds(2.0f);
 
-        SetAnnouncerText( "Round " + _currentRound + "!");
+        SetAnnouncerText("Round " + _currentRound + "!");
 
         yield return new WaitForSeconds(1.5f);
 
@@ -69,6 +69,55 @@ public class NetworkRoundManagerVisual : NetworkBehaviour, IRoundManagerVisual
 
         SetAnnouncerText("");
     }
+
+    public void StartGame()
+    {
+        if (!isServer)
+            return;
+
+        RpcStartGame();
+    }
+
+    [ClientRpc]
+    private void RpcStartGame()
+    {
+        _roundVisualFinished = false;
+        StartCoroutine(BegginningGameVisual());
+    }
+
+    public IEnumerator BegginningGameVisual()
+    {
+        SetAnnouncerText("Welcome to the game!");
+
+        yield return new WaitForSeconds(2.0f);
+
+        SetAnnouncerText("Round " + _currentRound + "!");
+
+        yield return new WaitForSeconds(1.0f);
+
+        yield return new WaitForSeconds(1.5f);
+
+        SetAnnouncerText("3");
+
+        yield return new WaitForSeconds(1.0f);
+
+        SetAnnouncerText("2");
+
+        yield return new WaitForSeconds(1.0f);
+
+        SetAnnouncerText("1");
+
+        yield return new WaitForSeconds(1.0f);
+
+        SetAnnouncerText("Go");
+        _roundVisualFinished = true;
+
+        yield return new WaitForSeconds(0.5f);
+
+        SetAnnouncerText("");
+    }
+
+
 
     public bool RoundVisualHasFinished()
     {

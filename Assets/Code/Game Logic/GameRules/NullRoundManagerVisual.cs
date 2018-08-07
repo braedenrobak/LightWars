@@ -13,4 +13,9 @@ public class NullRoundManagerVisual : IRoundManagerVisual
     {
         return true;
     }
+
+    public void StartGame()
+    {
+        // Stubbed
+    }
 }

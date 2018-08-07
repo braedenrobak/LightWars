@@ -7,4 +7,6 @@ public interface IRoundManagerVisual {
     bool RoundVisualHasFinished();
 
     void EndRound(int winner);
+
+    void StartGame();
 }

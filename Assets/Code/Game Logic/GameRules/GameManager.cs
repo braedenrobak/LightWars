@@ -57,7 +57,12 @@ public class GameManager : MonoBehaviour {
     {
         _roundManager = roundManager;
     }
-	
+
+    public void StartGame()
+    {
+        _roundManager.StartGame();
+    }
+
 	// Update is called once per frame
 	void Update () {
 
