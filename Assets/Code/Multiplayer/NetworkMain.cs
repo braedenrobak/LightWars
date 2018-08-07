@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class NetworkMain : MonoBehaviour {
+public class NetworkMain : NetworkBehaviour {
 
     public GameObject energyPrefab;
     public GameObject spawnPointPrefab;
     public GameObject roundManagerVisualPrefab;
 
     private GameManager _gameManager;
+    private RoundManager _roundManager;
     private BaseEnergySpawner _energySpawner;
     private BaseSpawnPointSpawner _spawnPointSpawner;
 
@@ -24,6 +25,19 @@ public class NetworkMain : MonoBehaviour {
         {
             _spawnPointSpawner.LoadSpawnPoints();
             _energySpawner.LoadEnergies();
+
+            // If you are the server spawn the visual on the clients
+            if (isServer)
+            {
+                GameObject roundManagerVisual = Instantiate(roundManagerVisualPrefab, Vector3.zero, Quaternion.identity);
+                NetworkServer.Spawn(roundManagerVisual);
+            }
+
+            // Find the spawned visual and connect it to the round manager
+            GameObject serverSpawnedRoundManager = GameObject.Find("NetworkRoundManagerVisual(Clone)");
+            _roundManager.SetVisual(serverSpawnedRoundManager.GetComponent<IRoundManagerVisual>());
+
+            _gameManager.StartGame();
             _gameManager.enabled = true;
         }
     }
@@ -64,12 +78,9 @@ public class NetworkMain : MonoBehaviour {
         _gameManager.enabled = false;
 
         // Create RoundManager
-        RoundManager roundManager = new RoundManager(3);
-        GameObject roundManagerVisual = Instantiate(roundManagerVisualPrefab, Vector3.zero, Quaternion.identity);
-        NetworkServer.Spawn(roundManagerVisual);
-        roundManager.SetVisual(roundManagerVisual.GetComponent<IRoundManagerVisual>());
+        _roundManager = new RoundManager(3);
 
-        _gameManager.SetRoundManager(roundManager);
+        _gameManager.SetRoundManager(_roundManager);
 
         _currentPlayerId = 0;
     }
