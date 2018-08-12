@@ -72,7 +72,7 @@ MonoBehaviour:
     i14: 199
     i15: 244
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114108999408461448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -89,4 +89,6 @@ MonoBehaviour:
   spawnPointPrefab: {fileID: 1657552474711300, guid: d49f4a5a6c6e848a39a4909164b5517b,
     type: 2}
   roundManagerVisualPrefab: {fileID: 1278108560124750, guid: e3591973ef7054a04aa758ef586785d6,
+    type: 2}
+  rematchScreenPrefab: {fileID: 1455879995708922, guid: 47855ab2f5fc24b69945e5f8342730a3,
     type: 2}
