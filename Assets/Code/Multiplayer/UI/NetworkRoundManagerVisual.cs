@@ -8,7 +8,14 @@ public class NetworkRoundManagerVisual : NetworkBehaviour, IRoundManagerVisual
 {
     public Text _announcerText;
 
-    public void SetAnnouncerText(string text)
+    private GameObject _rematchScreen;
+
+	public void Start()
+	{
+        _rematchScreen = GameObject.Find("RematchScreen(Clone)");
+	}
+
+	public void SetAnnouncerText(string text)
     {
         _announcerText.text = text;
     }
@@ -82,10 +89,11 @@ public class NetworkRoundManagerVisual : NetworkBehaviour, IRoundManagerVisual
     private void RpcStartGame()
     {
         _roundVisualFinished = false;
-        StartCoroutine(BegginningGameVisual());
+        _currentRound = 1;
+        StartCoroutine(BeginningGameVisual());
     }
 
-    public IEnumerator BegginningGameVisual()
+    public IEnumerator BeginningGameVisual()
     {
         SetAnnouncerText("Welcome to the game!");
 
@@ -117,6 +125,21 @@ public class NetworkRoundManagerVisual : NetworkBehaviour, IRoundManagerVisual
         SetAnnouncerText("");
     }
 
+    public void EndGame(int winner)
+    {
+        if (!isServer)
+            return;
+
+        RpcEndGame(winner);
+    }
+
+    [ClientRpc]
+    public void RpcEndGame(int winnerId)
+    {
+        _roundVisualFinished = false;
+
+        _rematchScreen.GetComponent<NetworkRematchScreen>().OpenScreen(winnerId == Constants.LOCAL_PLAYER_ID);
+    }
 
 
     public bool RoundVisualHasFinished()
