@@ -117,6 +117,8 @@ public class NetworkMain : NetworkBehaviour {
 
     public void CloseMatch()
     {
+        if (!isServer)
+            return;
         NetworkManager.singleton.StopHost();
         NetworkManager.singleton.StopClient();
         Debug.LogError("Closing the match!");
