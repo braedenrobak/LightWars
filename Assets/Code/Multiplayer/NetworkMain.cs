@@ -8,6 +8,7 @@ public class NetworkMain : NetworkBehaviour {
     public GameObject energyPrefab;
     public GameObject spawnPointPrefab;
     public GameObject roundManagerVisualPrefab;
+    public GameObject rematchScreenPrefab;
 
     private GameManager _gameManager;
     private RoundManager _roundManager;
@@ -19,7 +20,7 @@ public class NetworkMain : NetworkBehaviour {
 
     private int _currentPlayerId = 0;
 
-    public void Update()
+	public void Update()
     {
         if(!_gameManager.enabled && GameHasStarted())
         {
@@ -31,11 +32,17 @@ public class NetworkMain : NetworkBehaviour {
             {
                 GameObject roundManagerVisual = Instantiate(roundManagerVisualPrefab, Vector3.zero, Quaternion.identity);
                 NetworkServer.Spawn(roundManagerVisual);
+
+                GameObject rematchScreen = Instantiate(rematchScreenPrefab, Vector3.zero, Quaternion.identity);
+                NetworkServer.Spawn(rematchScreen);
             }
 
             // Find the spawned visual and connect it to the round manager
             GameObject serverSpawnedRoundManager = GameObject.Find("NetworkRoundManagerVisual(Clone)");
             _roundManager.SetVisual(serverSpawnedRoundManager.GetComponent<IRoundManagerVisual>());
+
+            GameObject serverSpawnedRematchScreen = GameObject.Find("RematchScreen(Clone)");
+            serverSpawnedRematchScreen.GetComponent<NetworkRematchScreen>().networkMain = this;
 
             _gameManager.StartGame();
             _gameManager.enabled = true;
@@ -85,6 +92,15 @@ public class NetworkMain : NetworkBehaviour {
         _currentPlayerId = 0;
     }
 
+
+    public void Rematch()
+    {
+        _roundManager = new RoundManager(3);
+        GameObject serverSpawnedRoundManager = GameObject.Find("NetworkRoundManagerVisual(Clone)");
+        _roundManager.SetVisual(serverSpawnedRoundManager.GetComponent<IRoundManagerVisual>());
+        _gameManager.SetRoundManager(_roundManager);
+        _gameManager.StartGame();
+    }
 
 	public void Reset()
 	{

@@ -28,6 +28,11 @@ public class MockPlayModeRoundManagerVisual : MonoBehaviour, IRoundManagerVisual
     {
         // Stubbed
     }
+
+    public void EndGame(int winner)
+    {
+        // Stubbed
+    }
 }
 
 public class RoundManagerPlayModeTest {

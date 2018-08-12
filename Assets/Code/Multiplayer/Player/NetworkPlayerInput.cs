@@ -78,4 +78,17 @@ public class NetworkPlayerInput : NetworkBehaviour {
             Debug.Log("Player does not have enough energy!");
         }
     }
+
+    public void RequestOwnership(NetworkIdentity requestee)
+    {
+        CmdRequestOwnership(requestee);
+    }
+
+    [Command]
+    public void CmdRequestOwnership(NetworkIdentity requestee)
+    {
+        requestee.GetComponent<NetworkIdentity>().RemoveClientAuthority(requestee.GetComponent<NetworkIdentity>().clientAuthorityOwner);
+
+        requestee.AssignClientAuthority(this.GetComponent<NetworkIdentity>().connectionToClient);
+    }
 }
