@@ -30,10 +30,10 @@ public class LightWarNetworkManager : NetworkManager {
         _networkMain.GetComponent<NetworkMain>().Reset();
 	}
 
-	public override void OnStartClient(NetworkClient client)
-	{
-		base.OnStartClient(client);
+    public override void OnStartClient(NetworkClient client)
+    {
+        base.OnStartClient(client);
         _networkMain.SetActive(true);
         _networkMain.GetComponent<NetworkMain>().Setup();
-	}
+    }
 }
