@@ -115,6 +115,13 @@ public class NetworkMain : NetworkBehaviour {
         Destroy(_networkPlayerOutputController);
 	}
 
+    public void CloseMatch()
+    {
+        NetworkManager.singleton.StopHost();
+        NetworkManager.singleton.StopClient();
+        Debug.LogError("Closing the match!");
+    }
+
     private bool GameHasStarted()
     {
         return _currentPlayerId == 2;

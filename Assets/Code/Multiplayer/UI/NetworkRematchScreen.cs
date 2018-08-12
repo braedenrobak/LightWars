@@ -12,12 +12,24 @@ public class NetworkRematchScreen : NetworkBehaviour {
 
     private GameObject _rematchCanvas;
 
+    [SyncVar(hook = "UpdateExitDecision")]
+    private bool _exitSelected = false;
+
+    private void UpdateExitDecision(bool exitSelected)
+    {
+        _exitSelected = exitSelected;
+
+        if(exitSelected)
+        {
+            networkMain.CloseMatch();
+        }
+    }
+
     [SyncVar (hook = "UpdateRematchCounter")]
     private int _rematchCounter = 0;
 
     private void UpdateRematchCounter(int rematchCounter)
     {
-        Debug.LogError("Old ==> " + _rematchCounter + " New ==> " + rematchCounter);
         _rematchCounter = rematchCounter;
         if(isServer && _rematchCounter == 2)
         {
@@ -74,7 +86,20 @@ public class NetworkRematchScreen : NetworkBehaviour {
 
     public void OnExitPressed()
     {
-        // Tell overlord that exit has been pressed
-        Debug.LogError("Exit Pressed!");
+        _rematchCanvas.SetActive(false);
+        if (isClient)
+        {
+            CmdExitPressed();
+        }
+        else
+        {
+            _exitSelected = true;
+        }
+    }
+
+    [Command]
+    public void CmdExitPressed()
+    {
+        _exitSelected = true;
     }
 }
