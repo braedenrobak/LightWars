@@ -43,14 +43,8 @@ public class GameManager : MonoBehaviour {
     // Use this for initialization
     void Awake()
     {
-        _playerManager = new PlayerManager();
-
-        _gameTimer = 0.0f;
         CreationTime = 1.5f;
         _playerViewOutputController = gameObject.GetComponent<IPlayerViewOutputController>();
-
-        _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(Constants.PLAYER_ONE));
-        _playerViewOutputController.UpdatePlayerView(ConvertToPlayerData(Constants.PLAYER_TWO));
     }
 
     public void SetRoundManager(RoundManager roundManager)
@@ -61,6 +55,7 @@ public class GameManager : MonoBehaviour {
     public void StartGame()
     {
         _roundManager.StartGame();
+        StartRound();
     }
 
 	// Update is called once per frame
@@ -102,7 +97,7 @@ public class GameManager : MonoBehaviour {
     {
         if (_roundManager.HasWinner())
         {
-            _playerViewOutputController.GameOverWithWinner(_roundManager.GetWinner());
+            _roundManager.EndGame(_roundManager.GetWinner());
         }
         else
         {

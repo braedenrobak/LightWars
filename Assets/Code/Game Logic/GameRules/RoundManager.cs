@@ -60,7 +60,13 @@ public class RoundManager {
 
         CalculateWinner();
 
-        _roundManagerVisual.EndRound(winnerOfRoundID);
+        if(!_hasWinner)
+            _roundManagerVisual.EndRound(winnerOfRoundID);
+    }
+
+    public void EndGame(int winnerId)
+    {
+        _roundManagerVisual.EndGame(winnerId);
     }
 
     public bool RoundIsReady()

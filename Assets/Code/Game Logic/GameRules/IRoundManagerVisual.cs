@@ -9,4 +9,6 @@ public interface IRoundManagerVisual {
     void EndRound(int winner);
 
     void StartGame();
+
+    void EndGame(int winner);
 }
