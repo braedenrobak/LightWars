@@ -60,6 +60,8 @@ public class GameManagerTests
         RoundManager roundManager = new RoundManager(3);
         roundManager.SetVisual(new NullRoundManagerVisual());
         _gameManager.SetRoundManager(roundManager);
+
+        _gameManager.StartGame();
     }
 
     [TearDown]
@@ -99,24 +101,6 @@ public class GameManagerTests
 
         Assert.AreEqual(4, _mockGameViewOutput.playerOne.energy);
         Assert.AreEqual(4, _mockGameViewOutput.playerTwo.energy);
-
-        yield return null;
-    }
-
-    [UnityTest]
-    public IEnumerator GameOverOnPlayerLostBestOfRounds()
-    {
-        _gameManager.PlayerHit(_mockGameViewOutput.playerOne, new EnergyData { energyType = 0, damage = 4 });
-
-        yield return new WaitForSeconds(2.0f);
-
-        _gameManager.PlayerHit(_mockGameViewOutput.playerOne, new EnergyData { energyType = 0, damage = 4 });
-
-        yield return new WaitForSeconds(2.0f);
-
-
-        Assert.True(_mockGameViewOutput.gameOverCalled);
-        Assert.AreEqual(Constants.PLAYER_TWO, _mockGameViewOutput.playerIdOfWinner);
 
         yield return null;
     }

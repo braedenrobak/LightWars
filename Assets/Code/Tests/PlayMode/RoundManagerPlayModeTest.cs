@@ -7,6 +7,10 @@ public class MockPlayModeRoundManagerVisual : MonoBehaviour, IRoundManagerVisual
 {
     private bool _roundIsReady = false;
 
+    public bool gameIsOver = false;
+
+    public int winnerId = -1;
+
     public void EndRound(int winner)
     {
         StartCoroutine(FakeRoundEndVisual());
@@ -31,7 +35,9 @@ public class MockPlayModeRoundManagerVisual : MonoBehaviour, IRoundManagerVisual
 
     public void EndGame(int winner)
     {
-        // Stubbed
+        gameIsOver = true;
+
+        winnerId = winner;
     }
 }
 
@@ -47,7 +53,7 @@ public class RoundManagerPlayModeTest {
         _roundManagerVisual = new GameObject("Round Manager Visual");
         IRoundManagerVisual roundManagerVisual = _roundManagerVisual.AddComponent<MockPlayModeRoundManagerVisual>();
 
-        _roundManager = new RoundManager(5);
+        _roundManager = new RoundManager(3);
         _roundManager.SetVisual(roundManagerVisual);
     }
 
@@ -69,5 +75,16 @@ public class RoundManagerPlayModeTest {
         yield return new WaitForSeconds(2.0f);
 
         Assert.IsTrue(_roundManager.RoundIsReady());
+    }
+
+    [UnityTest]
+    public IEnumerator GameOverOnLossOfBestOf()
+    {
+        _roundManager.EndRound(0);
+
+        yield return new WaitForSeconds(2.0f);
+
+        _roundManager.EndRound(0);
+
     }
 }
